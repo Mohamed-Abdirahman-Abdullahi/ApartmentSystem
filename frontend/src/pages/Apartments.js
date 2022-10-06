@@ -48,7 +48,7 @@ export default function User() {
             .then(res => {
                 const apartData = res.data;
                 setData(apartData);
-                setShowUpdate(true)
+                setShowUpdate(true);
             })
             .catch((err) => setMessage("Error: cant't get the selected apartment."))
     }
@@ -63,8 +63,8 @@ export default function User() {
             status: data.status
         })
         .then((res) => {
-            setMessage("Apartment updated.")
-            window.location.reload()
+            setMessage("Apartment updated.");
+            window.location.reload();
         })
         .catch((err) => setMessage("Update failed."))
     };
@@ -96,7 +96,11 @@ export default function User() {
             .catch(err => console.log(err));
     };
 
-    const handleClose = () => { setShow(false); setShowUpdate(false) };
+    const handleClose = () => { 
+        setShow(false); 
+        setShowUpdate(false);
+        window.location.reload();
+     };
     const handleShow = () => setShow(true);
 
     const {
@@ -126,7 +130,7 @@ export default function User() {
 
     useEffect(() => {
         bindApartments();
-    }, []);
+    }, [showUpdate]);
 
     return (
         <Page title="User">
@@ -169,23 +173,24 @@ export default function User() {
                     top: '10%'
                 }}
             >
-                <form onSubmit={handleSubmit(data => updateApart(data))} >
+                
+                <form onSubmit={handleSubmit(sumbData => updateApart(sumbData))} >
                     <Modal.Header closeButton>
                         <Modal.Title>UPDATE APARTMENT</Modal.Title>
                     </Modal.Header>
-                    <p>{message}</p>
+                    <p align="center">{message}</p>
                     {
-                        data?.map((data, key) => {
+                        data?.map((dt, key) => {
                             return (
                                 <Modal.Body>
-                                    <input type='text' {...register('id')} hidden className='form-control' required defaultValue={data._id} />
-                                    <input type='text' {...register('name')} placeholder='enter apartment name' className='form-control' required defaultValue={data.name} />
-                                    <input type='text' {...register('location')} placeholder='enter location' className='form-control mt-2' required defaultValue={data.location} />
-                                    <input type='text' {...register('address')} placeholder='enter address' className='form-control mt-2' required defaultValue={data.address} />
-                                    <input type='number' {...register('tel')} placeholder='enter tell' className='form-control mt-2' defaultValue={data.tel} />
+                                    <input type='text' {...register('id')} hidden className='form-control' required defaultValue={dt._id} />
+                                    <input type='text' {...register('name')} placeholder='enter apartment name' className='form-control' required defaultValue={dt.name} />
+                                    <input type='text' {...register('location')} placeholder='enter location' className='form-control mt-2' required defaultValue={dt.location} />
+                                    <input type='text' {...register('address')} placeholder='enter address' className='form-control mt-2' required defaultValue={dt.address} />
+                                    <input type='number' {...register('tel')} placeholder='enter tell' className='form-control mt-2' defaultValue={dt.tel} />
                                     <select {...register('status')} className='form-control mt-2'>
-                                        <option value={(data.status) ? 'true' : 'false'}>{(data.status) ? 'active' : 'inactive'}</option>
-                                        <option value={(data.status) ? 'false' : 'true'}>{(data.status) ? 'inactive' : 'active'}</option>
+                                        <option value={(dt.status) ? 'true' : 'false'}>{(dt.status) ? 'active' : 'inactive'}</option>
+                                        <option value={(dt.status) ? 'false' : 'true'}>{(dt.status) ? 'inactive' : 'active'}</option>
                                     </select>
                                 </Modal.Body>
                             )
@@ -233,7 +238,7 @@ export default function User() {
                                         if (apart.status) {
                                             return (
                                                 <tr>
-                                                    <td name='username'>{apart.name}</td>
+                                                    <td>{apart.name}</td>
                                                     <td>{apart.location}</td>
                                                     <td>{apart.address}</td>
                                                     <td>{apart.tel}</td>

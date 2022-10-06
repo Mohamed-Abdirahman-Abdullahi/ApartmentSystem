@@ -97,6 +97,7 @@ export default function User() {
     const handleClose = () => { 
         setShow(false); 
         setShowUpdate(false);
+        window.location.reload();
      };
     const handleShow = () => setShow(true);
 

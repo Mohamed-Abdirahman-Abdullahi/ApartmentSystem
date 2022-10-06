@@ -53,7 +53,7 @@ export default function Departments() {
             .catch((err) => setMessage("Error: cant't get the selected department."))
     }
 
-    async function updateApart(data) {
+    async function updateDepart(data) {
         await axios.patch(`http://localhost:9000/api/departments/:${data.id}`,
             {
                 name: data.name,
@@ -61,10 +61,10 @@ export default function Departments() {
                 phone: data.phone
             })
             .then((res) => {
-                setMessage("Department updated.")
-                window.location.reload()
+                setMessage("Department updated.");
+                window.location.reload();
             })
-            .catch((err) => setMessage("Update failed."))
+            .catch((err) => console.log(err))
     };
 
     function showAlert(id) {
@@ -94,7 +94,11 @@ export default function Departments() {
             .catch(err => console.log(err));
     };
 
-    const handleClose = () => { setShow(false); setShowUpdate(false) };
+    const handleClose = () => {
+        setShow(false);
+        setShowUpdate(false);
+        window.location.reload();
+    };
     const handleShow = () => setShow(true);
 
     const {
@@ -165,15 +169,16 @@ export default function Departments() {
                     top: '10%'
                 }}
             >
-                <form onSubmit={handleSubmit(data => updateApart(data))} >
+                <form onSubmit={handleSubmit(data => updateDepart(data))} >
                     <Modal.Header closeButton>
                         <Modal.Title>UPDATE DEPARTMENT</Modal.Title>
                     </Modal.Header>
-                    <p>{message}</p>
+                    <p align='center'>{message}</p>
                     {
                         data?.map((data, key) => {
                             return (
                                 <Modal.Body>
+                                    <input value={data._id} hidden type='text' {...register('id')} placeholder='enter department name' className='form-control' required />
                                     <input defaultValue={data.name} type='text' {...register('name')} placeholder='enter department name' className='form-control' required />
                                     <input defaultValue={data.manager} type='text' {...register('manager')} placeholder='enter manager' className='form-control mt-2' required />
                                     <input defaultValue={data.phone} type='number' {...register('phone')} placeholder='enter primary phone' className='form-control mt-2' />

@@ -31,16 +31,14 @@ const createDepartment = async (req, res) => {
 const updateDepartment = async (req, res) => {
     const { id } = req.params;
     const removedCol = id.replace(':', "")
+    console.log('Hooraaaaaaaaaaaay');
 
     let dept = await Departments.findOne({ name: req.body.name });
     if (dept) return res.status(400).send("department already registered");
-
-    Departments.findByIdAndUpdate(
+    await Departments.findByIdAndUpdate(
         removedCol,
         {
-            name: req.body.name,
-            manager: req.body.manager,
-            phone: req.body.phone,
+           ...req.body
         },
         { new: true }
     );

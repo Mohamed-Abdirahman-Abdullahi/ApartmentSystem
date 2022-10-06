@@ -64,7 +64,7 @@ export default function Departments() {
                 setMessage("Department updated.");
                 window.location.reload();
             })
-            .catch((err) => console.log(err))
+            .catch((err) => console.log(err.response.data))
     };
 
     function showAlert(id) {

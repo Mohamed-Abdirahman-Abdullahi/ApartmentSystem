@@ -37,7 +37,6 @@ const createUnit = async (req, res) => {
 
     res.send(unit);
 };
-
 const updateUnit = async (req, res) => {
     const { id } = req.params;
     const removedCol = id.replace(':', "")

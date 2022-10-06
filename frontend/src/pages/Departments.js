@@ -27,43 +27,41 @@ import Profile from './Profile';
 
 // ----------------------------------------------------------------------
 
-export default function User() {
-    const [aparts, setAparts] = useState();
+export default function Departments() {
+    const [depts, setDepts] = useState();
     const [message, setMessage] = useState('');
     const [show, setShow] = useState(false);
     const [data, setData] = useState();
     const [showUpdate, setShowUpdate] = useState(false);
 
-    async function bindApartments() {
-        axios.get(`http://localhost:9000/api/apartments`)
+    async function bindDepartments() {
+        axios.get(`http://localhost:9000/api/departments`)
             .then(res => {
                 const aparts = res.data;
-                setAparts(aparts);
+                setDepts(aparts);
             })
-            .catch((err) => setMessage("Error: can't read apartments."))
+            .catch((err) => setMessage("Error: can't read departments."))
     };
 
-    async function getSelectedApart(id) {
-        await axios.get(`http://localhost:9000/api/apartments/:${id}`)
+    async function getSelectedDepart(id) {
+        await axios.get(`http://localhost:9000/api/departments/:${id}`)
             .then(res => {
-                const apartData = res.data;
-                setData(apartData);
+                const deptData = res.data;
+                setData(deptData);
                 setShowUpdate(true)
             })
-            .catch((err) => setMessage("Error: cant't get the selected apartment."))
+            .catch((err) => setMessage("Error: cant't get the selected department."))
     }
 
     async function updateApart(data) {
-        await axios.patch(`http://localhost:9000/api/apartments/:${data.id}`,
+        await axios.patch(`http://localhost:9000/api/departments/:${data.id}`,
             {
                 name: data.name,
-                location: data.location,
-                address: data.address,
-                tel: data.tel,
-                status: data.status
+                manager: data.manager,
+                phone: data.phone
             })
             .then((res) => {
-                setMessage("Apartment updated.")
+                setMessage("Department updated.")
                 window.location.reload()
             })
             .catch((err) => setMessage("Update failed."))
@@ -76,7 +74,7 @@ export default function User() {
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => deleteSelectedApart(id),
+                    onClick: () => deleteSelectedDepart(id),
                     style: { background: 'red' }
                 },
                 {
@@ -86,11 +84,11 @@ export default function User() {
         });
     };
 
-    async function deleteSelectedApart(id) {
-        await axios.delete(`http://localhost:9000/api/apartments/:${id}`)
+    async function deleteSelectedDepart(id) {
+        await axios.delete(`http://localhost:9000/api/departments/:${id}`)
             .then(res => {
-                const deletedApart = res.data;
-                setMessage(`apartment removed.`);
+                const deletedDept = res.data;
+                setMessage(`department removed.`);
                 window.location.reload();
             })
             .catch(err => console.log(err));
@@ -105,15 +103,14 @@ export default function User() {
         formState: { errors },
     } = useForm();
 
-    async function addNewApart(e) {
-        await axios.post('http://localhost:9000/api/apartments', {
+    async function addNewDepart(e) {
+        await axios.post('http://localhost:9000/api/departments', {
             name: e.name,
-            location: e.location,
-            address: e.address,
-            tel: e.tel
+            manager: e.manager,
+            phone: e.phone
         })
             .then(res => {
-                setMessage('new apartment added');
+                setMessage('new department added');
                 setShow(false);
                 window.location.reload();
             })
@@ -125,7 +122,7 @@ export default function User() {
     };
 
     useEffect(() => {
-        bindApartments();
+        bindDepartments();
     }, []);
 
     return (
@@ -139,17 +136,16 @@ export default function User() {
                     top: '10%'
                 }}
             >
-                <form onSubmit={handleSubmit(data => addNewApart(data))} >
+                <form onSubmit={handleSubmit(data => addNewDepart(data))} >
                     <Modal.Header closeButton>
-                        <Modal.Title>ADD NEW APARTMENT</Modal.Title>
+                        <Modal.Title>ADD NEW DEPARTMENT</Modal.Title>
                     </Modal.Header>
                     <p>{message}</p>
 
                     <Modal.Body>
-                        <input type='text' {...register('name')} placeholder='enter apartment name' className='form-control' required />
-                        <input type='text' {...register('location')} placeholder='enter location' className='form-control mt-2' required />
-                        <input type='text' {...register('address')} placeholder='enter address' className='form-control mt-2' required />
-                        <input type='number' {...register('tel')} placeholder='enter tell' className='form-control mt-2' />
+                        <input type='text' {...register('name')} placeholder='enter department name' className='form-control' required />
+                        <input type='text' {...register('manager')} placeholder='enter manager' className='form-control mt-2' required />
+                        <input type='number' {...register('phone')} placeholder='enter primary phone' className='form-control mt-2' />
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant='secondary' onClick={handleClose} >
@@ -171,22 +167,16 @@ export default function User() {
             >
                 <form onSubmit={handleSubmit(data => updateApart(data))} >
                     <Modal.Header closeButton>
-                        <Modal.Title>UPDATE APARTMENT</Modal.Title>
+                        <Modal.Title>UPDATE DEPARTMENT</Modal.Title>
                     </Modal.Header>
                     <p>{message}</p>
                     {
                         data?.map((data, key) => {
                             return (
                                 <Modal.Body>
-                                    <input type='text' {...register('id')} hidden className='form-control' required defaultValue={data._id} />
-                                    <input type='text' {...register('name')} placeholder='enter apartment name' className='form-control' required defaultValue={data.name} />
-                                    <input type='text' {...register('location')} placeholder='enter location' className='form-control mt-2' required defaultValue={data.location} />
-                                    <input type='text' {...register('address')} placeholder='enter address' className='form-control mt-2' required defaultValue={data.address} />
-                                    <input type='number' {...register('tel')} placeholder='enter tell' className='form-control mt-2' defaultValue={data.tel} />
-                                    <select {...register('status')} className='form-control mt-2'>
-                                        <option value={(data.status) ? 'true' : 'false'}>{(data.status) ? 'active' : 'inactive'}</option>
-                                        <option value={(data.status) ? 'false' : 'true'}>{(data.status) ? 'inactive' : 'active'}</option>
-                                    </select>
+                                    <input defaultValue={data.name} type='text' {...register('name')} placeholder='enter department name' className='form-control' required />
+                                    <input defaultValue={data.manager} type='text' {...register('manager')} placeholder='enter manager' className='form-control mt-2' required />
+                                    <input defaultValue={data.phone} type='number' {...register('phone')} placeholder='enter primary phone' className='form-control mt-2' />
                                 </Modal.Body>
                             )
                         })
@@ -203,10 +193,10 @@ export default function User() {
             <Container>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                     <Typography variant="h4" gutterBottom>
-                        Apartments
+                        Departments
                     </Typography>
                     <Button variant="contained" onClick={handleShow} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
-                        New Apartment
+                        New Department
                     </Button>
                 </Stack>
                 <p style={{ textAlign: 'center' }}>{message}</p>
@@ -219,53 +209,29 @@ export default function User() {
                             <MDBTableHead light >
                                 <tr>
                                     <th scope='col'>name</th>
-                                    <th scope='col'>location</th>
-                                    <th scope='col'>address</th>
-                                    <th scope='col'>tel</th>
-                                    <th scope='col'>status</th>
+                                    <th scope='col'>manager</th>
+                                    <th scope='col'>phone</th>
                                     <th scope='col'>addedAt</th>
                                     <th scope='col'>actions</th>
                                 </tr>
                             </MDBTableHead>
                             <MDBTableBody>
                                 {
-                                    aparts?.map((apart, key) => {
-                                        if (apart.status) {
-                                            return (
-                                                <tr>
-                                                    <td name='username'>{apart.name}</td>
-                                                    <td>{apart.location}</td>
-                                                    <td>{apart.address}</td>
-                                                    <td>{apart.tel}</td>
-                                                    <td ><span style={{ background: 'green', color: 'white' }}>active</span></td>
-                                                    <td>{apart.createdAt}</td>
-                                                    <td>
-                                                        <div>
-                                                            <button onClick={() => { getSelectedApart(apart._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
-                                                            <button onClick={() => { showAlert(apart._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            )
-                                        } if (!apart.status) {
-                                            return (
-                                                <tr>
-                                                    <td name='username'>{apart.name}</td>
-                                                    <td>{apart.location}</td>
-                                                    <td>{apart.address}</td>
-                                                    <td>{apart.tel}</td>
-                                                    <td ><span style={{ background: 'red', color: 'white' }}>inactive</span></td>
-                                                    <td>{apart.createdAt}</td>
-                                                    <td>
-                                                        <div style={{ display: 'grid', gridTemplateColumns: 'auto auto' }}>
-                                                            <button onClick={() => { getSelectedApart(apart._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
-                                                            <button onClick={() => { showAlert(apart._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            )
-                                        }
-                                        return null
+                                    depts?.map((dept, key) => {
+                                        return (
+                                            <tr>
+                                                <td>{dept.name}</td>
+                                                <td>{dept.manager}</td>
+                                                <td>{dept.phone}</td>
+                                                <td>{dept.createdAt}</td>
+                                                <td>
+                                                    <div>
+                                                        <button onClick={() => { getSelectedDepart(dept._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
+                                                        <button onClick={() => { showAlert(dept._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        )
                                     })
                                 }
                             </MDBTableBody>

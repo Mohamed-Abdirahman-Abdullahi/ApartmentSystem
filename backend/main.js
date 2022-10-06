@@ -7,6 +7,7 @@ const tenants = require('./routes/tenants/tenants')
 const apartments = require('./routes/apartments/apartments');
 const floors = require('./routes/floors/floors');
 const units = require('./routes/units/units');
+const departments = require('./routes/departments/departments');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use('/api/tenants', tenants);
 app.use('/api/apartments', apartments);
 app.use('/api/floors', floors);
 app.use('/api/units', units);
+app.use('/api/departments', departments);
 
 app.get('/', (req, res)=>{
     res.send("Server set up successfull.")

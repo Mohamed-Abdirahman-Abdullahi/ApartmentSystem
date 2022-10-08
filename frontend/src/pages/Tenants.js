@@ -205,7 +205,7 @@ export default function User() {
                                             )
                                         } if (!tenant.status) {
                                             return (
-                                                <tr>
+                                                <tr style={{background: "#ffb7b7"}}>
                                                     <td name='username'>{tenant.fullname}</td>
                                                     <td>{tenant.tel}</td>
                                                     <td>{tenant.address}</td>

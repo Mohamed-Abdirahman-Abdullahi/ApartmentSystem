@@ -117,6 +117,7 @@ export default function User() {
 
     return (
         <Page title="User">
+            {/* Add new Employee modal  */}
             <Modal
                 show={show}
                 onHide={handleClose}
@@ -151,7 +152,7 @@ export default function User() {
                         <input type='number' {...register('empSalary')} placeholder='enter salary' className='form-control mt-2' />
                         <input type='text' {...register('createdBy')} placeholder='created by' className='form-control mt-2' required />
                         <select {...register('empStatus')} className='form-control mt-2' id="exampleFormControlSelect">
-                            <option value='' style={{ color: 'grey' }}>select stratus</option>
+                            <option value='' style={{ color: 'grey' }}>select status</option>
                             <option value='true'>active</option>
                             <option value='false'>inactive</option>
                         </select>
@@ -214,7 +215,7 @@ export default function User() {
                                             )
                                         } if (!emp.status) {
                                             return (
-                                                <tr>
+                                                <tr style={{background: "#ffb7b7"}}>
                                                     <td name='username'>{emp.fullname}</td>
                                                     <td>{emp.tel}</td>
                                                     <td>{emp.address}</td>

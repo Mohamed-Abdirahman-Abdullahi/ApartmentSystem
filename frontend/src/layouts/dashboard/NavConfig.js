@@ -27,6 +27,16 @@ const navConfig = [
     icon: getIcon('eva:people-outline'),
   },
   {
+    title: 'guarantors',
+    path: '/dashboard/guarantors',
+    icon: getIcon('eva:people-outline'),
+  },
+  {
+    title: 'visitors',
+    path: '/dashboard/visitors',
+    icon: getIcon('eva:people-outline'),
+  },
+  {
     title: 'apartments',
     path: '/dashboard/apartments',
     icon: getIcon('fe:building'),
@@ -45,6 +55,11 @@ const navConfig = [
     title: 'units',
     path: '/dashboard/units',
     icon: getIcon('emojione:door'),
+  },
+  {
+    title: 'inbox',
+    path: '/dashboard/inbox',
+    icon: getIcon('carbon:email'),
   },
   {
     title: 'reports',

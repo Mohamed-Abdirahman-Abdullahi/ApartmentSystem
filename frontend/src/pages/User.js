@@ -187,7 +187,7 @@ export default function User() {
                     if (user.status.toString() === 'true') {
                       return (
                         <tr key={key}>
-                          <td name='username'>{user.username}</td>
+                          <td>{user.username}</td>
                           <td>{user.email}</td>
                           <td>{user.userGroupID}</td>
                           <td><span style={{ borderRadius: '15px', background: 'green', color: 'white' }}>active</span></td>
@@ -202,7 +202,7 @@ export default function User() {
                       )
                     } if (user.status.toString() === 'false') {
                       return (
-                        <tr key={key}>
+                        <tr key={key} style={{background: "#ffb7b7"}}>
                           <td>{user.username}</td>
                           <td>{user.email}</td>
                           <td>{user.userGroupID}</td>

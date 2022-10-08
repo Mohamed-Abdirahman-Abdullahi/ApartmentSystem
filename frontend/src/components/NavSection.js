@@ -2,6 +2,8 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { NavLink as RouterLink, matchPath, useLocation } from 'react-router-dom';
 // material
+import { Dropdown } from 'bootstrap';
+import { DropdownButton } from 'react-bootstrap';
 import { alpha, useTheme, styled } from '@mui/material/styles';
 import { Box, List, Collapse, ListItemText, ListItemIcon, ListItemButton } from '@mui/material';
 //
@@ -81,7 +83,7 @@ function NavItem({ item, active }) {
             {children.map((item) => {
               const { title, path } = item;
               const isActiveSub = active(path);
-
+              console.log(title);
               return (
                 <ListItemStyle
                   key={title}
@@ -147,9 +149,12 @@ export default function NavSection({ navConfig, ...other }) {
   return (
     <Box {...other}>
       <List disablePadding sx={{ p: 1 }}>
-        {navConfig.map((item) => (
-          <NavItem key={item.title} item={item} active={match} />
-        ))}
+        {navConfig.map((item) => {
+            return (
+              <NavItem key={item.title} item={item} active={match} />
+            )
+          }
+        )}
       </List>
     </Box>
   );

@@ -255,7 +255,7 @@ export default function Units() {
                                             )
                                         } if (!unit.status) {
                                             return (
-                                                <tr>
+                                                <tr style={{background: "#ffb7b7"}}>
                                                     <td name='username'>{unit.name}</td>
                                                     <td>{unit.floor.name}</td>
                                                     <td>{unit.numberOfBathRooms}</td>

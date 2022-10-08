@@ -254,7 +254,7 @@ export default function User() {
                                             )
                                         } if (!apart.status) {
                                             return (
-                                                <tr>
+                                                <tr style={{background: "#ffb7b7"}}>
                                                     <td name='username'>{apart.name}</td>
                                                     <td>{apart.location}</td>
                                                     <td>{apart.address}</td>

@@ -240,7 +240,7 @@ export default function User() {
                                             )
                                         } if (!floor.status) {
                                             return (
-                                                <tr>
+                                                <tr style={{background: "#ffb7b7"}}>
                                                     <td name='username'>{floor.name}</td>
                                                     <td>{floor.apartment.name}</td>
                                                     <td ><span style={{ background: 'red', color: 'white' }}>inactive</span></td>

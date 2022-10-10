@@ -15,7 +15,7 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
-
+import moment from 'moment';
 // components
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
@@ -32,6 +32,10 @@ export default function User() {
     const [emps, setEmps] = useState();
     const [message, setMessage] = useState('');
     const [show, setShow] = useState(false);
+
+    const formatDate = (date) => {
+        return moment(date).format('DD/MM/YYYY');
+    };
 
     async function bindEmployees() {
         axios.get(`http://localhost:9000/api/employees`)
@@ -204,7 +208,7 @@ export default function User() {
                                                     <td>{emp.address}</td>
                                                     <td>{emp.department}</td>
                                                     <td ><span style={{ background: 'green', color: 'white' }}>active</span></td>
-                                                    <td>{emp.createdAt}</td>
+                                                    <td>{formatDate(emp.createdAt)}</td>
                                                     <td>
                                                         <div>
                                                             <button onClick={() => { getSelectedEmp(emp._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
@@ -215,15 +219,15 @@ export default function User() {
                                             )
                                         } if (!emp.status) {
                                             return (
-                                                <tr style={{background: "#ffb7b7"}}>
+                                                <tr style={{ background: "#ffb7b7" }}>
                                                     <td name='username'>{emp.fullname}</td>
                                                     <td>{emp.tel}</td>
                                                     <td>{emp.address}</td>
                                                     <td>{emp.department}</td>
                                                     <td ><span style={{ background: 'red', color: 'white' }}>inactive</span></td>
-                                                    <td>{emp.createdAt}</td>
+                                                    <td>{formatDate(emp.createdAt)}</td>
                                                     <td>
-                                                        <div style={{display:'flex'}}>
+                                                        <div style={{ display: 'flex' }}>
                                                             <button onClick={() => { getSelectedEmp(emp._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
                                                             <button onClick={() => { showAlert(emp._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
                                                         </div>

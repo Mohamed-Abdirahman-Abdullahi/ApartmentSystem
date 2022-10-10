@@ -15,7 +15,7 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
-
+import moment from 'moment';
 // components
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
@@ -33,7 +33,10 @@ export default function Visitors() {
     const [show, setShow] = useState(false);
     const [data, setData] = useState();
     const [showUpdate, setShowUpdate] = useState(false);
-    const [deleted, setDeleted] = useState(false);
+
+    const formatDate = (date) => {
+        return moment(date).format('DD/MM/YYYY');
+    };
 
     async function bindVisitors() {
         axios.get(`http://localhost:9000/api/visitors`)
@@ -253,7 +256,7 @@ export default function Visitors() {
                                                 <td>{visitor.address}</td>
                                                 <td>{visitor.tenant}</td>
                                                 <td>{visitor.description}</td>
-                                                <td>{visitor.createdAt}</td>
+                                                <td>{formatDate(visitor.createdAt)}</td>
                                                 <td>
                                                     <div style={{ display: 'flex' }}>
                                                         <button onClick={() => { getSelectedVisitor(visitor._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>

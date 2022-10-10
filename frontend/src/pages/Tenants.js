@@ -15,7 +15,7 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
-
+import moment from 'moment';
 // components
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
@@ -32,6 +32,10 @@ export default function User() {
     const [tenants, setTenants] = useState();
     const [message, setMessage] = useState('');
     const [show, setShow] = useState(false);
+
+    const formatDate = (date) => {
+        return moment(date).format('DD/MM/YYYY');
+    };
 
     async function bindTenants() {
         axios.get(`http://localhost:9000/api/tenants`)
@@ -194,7 +198,7 @@ export default function User() {
                                                     <td>{tenant.address}</td>
                                                     <td>{tenant.guarantor}</td>
                                                     <td ><span style={{ background: 'green', color: 'white' }}>active</span></td>
-                                                    <td>{tenant.createdAt}</td>
+                                                    <td>{formatDate(tenant.createdAt)}</td>
                                                     <td>
                                                         <div>
                                                             <button onClick={() => { getSelectedTenant(tenant._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
@@ -211,7 +215,7 @@ export default function User() {
                                                     <td>{tenant.address}</td>
                                                     <td>{tenant.guarantor}</td>
                                                     <td ><span style={{ background: 'red', color: 'white' }}>inactive</span></td>
-                                                    <td>{tenant.createdAt}</td>
+                                                    <td>{formatDate(tenant.createdAt)}</td>
                                                     <td>
                                                         <div style={{ display: 'grid', gridTemplateColumns:'auto auto' }}>
                                                             <button onClick={() => { getSelectedTenant(tenant._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>

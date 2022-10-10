@@ -21,7 +21,7 @@ export default function PersonalProfile() {
 
     const formatDate = (date) => {
         return moment(date).format('DD/MM/YYYY');
-      }
+    }
 
     async function updateEmp(id, data) {
         await axios.patch(`http://localhost:9000/api/tenants/:${id}`,
@@ -115,7 +115,7 @@ export default function PersonalProfile() {
                                                         </MDBCol>
                                                         <MDBCol size="6" className="mb-3">
                                                             <MDBTypography tag="h6">Created At</MDBTypography>
-                                                            <input className="text-muted form-control" value={tenant.createdAt} />
+                                                            <input className="text-muted form-control" value={formatDate(tenant.createdAt)} />
                                                         </MDBCol>
                                                     </MDBRow>
 

@@ -14,7 +14,7 @@ import axios from 'axios';
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Modal from 'react-bootstrap/Modal';
-
+import moment from 'moment';
 // components
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
@@ -30,6 +30,10 @@ export default function User() {
   const [users, setUsers] = useState();
   const [message, setMessage] = useState('');
   const [show, setShow] = useState(false);
+
+  const formatDate = (date) => {
+    return moment(date).format('DD/MM/YYYY');
+  }
 
   async function getUsers() {
     axios.get(`http://localhost:9000/api/users`)
@@ -191,7 +195,7 @@ export default function User() {
                           <td>{user.email}</td>
                           <td>{user.userGroupID}</td>
                           <td><span style={{  background: 'green', color: 'white' }}>active</span></td>
-                          <td>{user.created_at}</td>
+                          <td>{formatDate(user.created_at)}</td>
                           <td>
                             <div>
                               <button onClick={() => { getSelectedUser(user._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
@@ -207,7 +211,7 @@ export default function User() {
                           <td>{user.email}</td>
                           <td>{user.userGroupID}</td>
                           <td><span style={{ background: 'red', color: 'white' }}>inactive</span></td>
-                          <td>{user.created_at}</td>
+                          <td>{formatDate(user.created_at)}</td>
                           <td>
                             <div>
                               <button onClick={() => { getSelectedUser(user._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>

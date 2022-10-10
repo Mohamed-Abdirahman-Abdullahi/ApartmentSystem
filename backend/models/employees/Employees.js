@@ -59,6 +59,10 @@ const empSchema = connection.Schema({
         default: false
 
     },
+    endDate: 
+    {
+        type: Date
+    }
 
 }, {
     timestamps: true

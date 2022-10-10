@@ -33,6 +33,7 @@ const createUnit = async (req, res) => {
         numberOfBathRooms: req.body.numberOfBathRooms,
         numberOfKitchens: req.body.numberOfKitchens,
         numberOfRooms: req.body.numberOfRooms,
+        numberOfBalkings: req.body.numberOfBalkings
     });
 
     res.send(unit);

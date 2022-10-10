@@ -29,6 +29,7 @@ const creatEmpolyee = async (req, res) => {
         salary: req.body.salary,
         createdBy: req.body.createdBy,
         status: req.body.status,
+        endDate: req.body.endDate
     });
 
     res.json(emp);

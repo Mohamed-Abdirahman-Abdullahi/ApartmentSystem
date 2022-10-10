@@ -189,7 +189,7 @@ export default function User() {
                                     <th scope='col'>address</th>
                                     <th scope='col'>department</th>
                                     <th scope='col'>status</th>
-                                    <th scope='col'>regDate</th>
+                                    <th scope='col'>joinDate</th>
                                     <th scope='col'>actions</th>
                                 </tr>
                             </MDBTableHead>

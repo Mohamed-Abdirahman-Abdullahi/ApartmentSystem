@@ -61,11 +61,12 @@ export default function Units() {
                 status: data.status,
                 numberOfRooms: data.noOfRooms,
                 numberOfBathRooms: data.noOfBathRooms,
-                numberOfKitchens: data.noOfKitchens
+                numberOfKitchens: data.noOfKitchens,
+                numberOfBalkings: data.noOfBalkings
             })
             .then((res) => {
-                setMessage("Unit updated.")
-                window.location.reload()
+                setMessage("Unit updated.");
+                setShowUpdate(false);
             })
             .catch((err) => setMessage("Update failed."))
     };
@@ -92,7 +93,6 @@ export default function Units() {
             .then(res => {
                 const deletedUnit = res.data;
                 setMessage(`unit removed.`);
-                window.location.reload();
             })
             .catch(err => console.log(err));
     };
@@ -115,12 +115,12 @@ export default function Units() {
             floor: e.floor,
             numberOfRooms: e.noOfRooms,
             numberOfBathRooms: e.noOfBathRooms,
-            numberOfKitchens: e.noOfKitchens
+            numberOfKitchens: e.noOfKitchens,
+            numberOfBalkings: e.noOfBalkings
         })
             .then(res => {
                 setMessage('new unit added');
                 setShow(false);
-                window.location.reload();
             })
             .catch(err => {
                 setMessage('failed...');
@@ -131,7 +131,7 @@ export default function Units() {
 
     useEffect(() => {
         bindUnits();
-    }, []);
+    }, [message]);
 
     return (
         <Page title="User">
@@ -151,11 +151,12 @@ export default function Units() {
                     <p>{message}</p>
 
                     <Modal.Body>
-                        <input type='text' {...register('name')} placeholder='enter unit name' className='form-control' required  />
-                        <input type='number' {...register('noOfRooms')} placeholder='number of rooms' className='form-control mt-2' required  />
-                        <input type='number' {...register('noOfBathRooms')} placeholder='number of bath rooms' className='form-control mt-2' required  />
-                        <input type='number' {...register('noOfKitchens')} placeholder='number of kitchens' className='form-control mt-2' required  />
-                        <input type='text' {...register('floor')} placeholder='floor name' className='form-control mt-2' required  />
+                        <input type='text' {...register('name')} placeholder='enter unit name' className='form-control' required />
+                        <input type='number' {...register('noOfRooms')} placeholder='number of rooms' className='form-control mt-2' required />
+                        <input type='number' {...register('noOfBathRooms')} placeholder='number of bath rooms' className='form-control mt-2' required />
+                        <input type='number' {...register('noOfBalkings')} placeholder='number of kitchens' className='form-control mt-2' required />
+                        <input type='number' {...register('noOfKitchens')} placeholder='number of balkings' className='form-control mt-2' required />
+                        <input type='text' {...register('floor')} placeholder='floor name' className='form-control mt-2' required />
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant='secondary' onClick={handleClose} >
@@ -185,9 +186,10 @@ export default function Units() {
                                 <Modal.Body>
                                     <input type='text' {...register('id')} hidden className='form-control' required value={unit._id} />
                                     <input type='text' {...register('name')} placeholder='enter unit name' className='form-control' required defaultValue={unit.name} />
-                                    <input type='text' {...register('noOfRooms')} placeholder='number of rooms' className='form-control mt-2' required defaultValue={unit.numberOfRooms} />
-                                    <input type='text' {...register('noOfBathRooms')} placeholder='number of bathrooms' className='form-control mt-2' required defaultValue={unit.numberOfBathRooms} />
-                                    <input type='text' {...register('noOfKitchens')} placeholder='number of kitchens' className='form-control mt-2' required defaultValue={unit.numberOfKitchens} />
+                                    <input type='number' {...register('noOfRooms')} placeholder='number of rooms' className='form-control mt-2' required defaultValue={unit.numberOfRooms} />
+                                    <input type='number' {...register('noOfBathRooms')} placeholder='number of bathrooms' className='form-control mt-2' required defaultValue={unit.numberOfBathRooms} />
+                                    <input type='number' {...register('noOfKitchens')} placeholder='number of kitchens' className='form-control mt-2' required defaultValue={unit.numberOfKitchens} />
+                                    <input type='number' {...register('noOfBalkings')} placeholder='number of balkings' className='form-control mt-2' required defaultValue={unit.numberOfBalkings} />
                                     <input type='text' {...register('floor')} placeholder='floor name' className='form-control mt-2' required defaultValue={unit.floor.name} />
                                     <select {...register('status')} className='form-control mt-2'>
                                         <option value={(unit.status) ? 'true' : 'false'}>{(unit.status) ? 'active' : 'inactive'}</option>
@@ -227,6 +229,7 @@ export default function Units() {
                                     <th scope='col'>bathRooms</th>
                                     <th scope='col'>rooms</th>
                                     <th scope='col'>kitchens</th>
+                                    <th scope='col'>noOfBalkings</th>
                                     <th scope='col'>status</th>
                                     <th scope='col'>addedAt</th>
                                     <th scope='col'>actions</th>
@@ -243,6 +246,7 @@ export default function Units() {
                                                     <td>{unit.numberOfBathRooms}</td>
                                                     <td>{unit.numberOfRooms}</td>
                                                     <td>{unit.numberOfKitchens}</td>
+                                                    <td>{unit.numberOfBalkings}</td>
                                                     <td ><span style={{ background: 'green', color: 'white' }}>active</span></td>
                                                     <td>{unit.createdAt}</td>
                                                     <td>
@@ -255,12 +259,13 @@ export default function Units() {
                                             )
                                         } if (!unit.status) {
                                             return (
-                                                <tr style={{background: "#ffb7b7"}}>
+                                                <tr style={{ background: "#ffb7b7" }}>
                                                     <td name='username'>{unit.name}</td>
                                                     <td>{unit.floor.name}</td>
                                                     <td>{unit.numberOfBathRooms}</td>
                                                     <td>{unit.numberOfRooms}</td>
                                                     <td>{unit.numberOfKitchens}</td>
+                                                    <td>{unit.numberOfBalkings}</td>
                                                     <td ><span style={{ background: 'red', color: 'white' }}>inactive</span></td>
                                                     <td>{unit.createdAt}</td>
                                                     <td>

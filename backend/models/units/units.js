@@ -23,6 +23,11 @@ const unitSchema = new connection.Schema(
       required: true,
       default: 1,
     },
+    numberOfBalkings: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
     floor: {
       type: new connection.Schema({
         name: {

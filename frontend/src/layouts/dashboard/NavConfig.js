@@ -37,29 +37,46 @@ const navConfig = [
     icon: getIcon('eva:people-outline'),
   },
   {
-    title: 'apartments',
-    path: '/dashboard/apartments',
+    title: 'manage apartments',
     icon: getIcon('fe:building'),
-  },
-  {
-    title: 'departments',
-    path: '/dashboard/departments',
-    icon: getIcon('flat-color-icons:department'),
-  },
-  {
-    title: 'floors',
-    path: '/dashboard/floors',
-    icon: getIcon('fe:home'),
-  },
-  {
-    title: 'units',
-    path: '/dashboard/units',
-    icon: getIcon('emojione:door'),
+    children: [
+      {
+        title: 'apartments',
+        path: '/dashboard/apartments',
+        icon: getIcon('flat-color-icons:department'),
+      },
+      {
+        title: 'departments',
+        path: '/dashboard/departments',
+        icon: getIcon('flat-color-icons:department'),
+      },
+      {
+        title: 'floors',
+        path: '/dashboard/floors',
+        icon: getIcon('fe:home'),
+      },
+      {
+        title: 'units',
+        path: '/dashboard/units',
+        icon: getIcon('emojione:door'),
+      }
+    ]
   },
   {
     title: 'inbox',
     path: '/dashboard/inbox',
     icon: getIcon('carbon:email'),
+    children: [{
+      title: 'Complaints',
+      path: '/dashboard/complaints',
+      icon: getIcon('carbon:email'),
+    },
+    {
+      title: 'Maintenances',
+      path: '/dashboard/inbox',
+      icon: getIcon('carbon:email'),
+    }
+    ]
   },
   {
     title: 'reports',

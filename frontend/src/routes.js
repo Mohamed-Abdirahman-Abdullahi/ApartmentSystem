@@ -17,6 +17,9 @@ import Apartments from './pages/Apartments';
 import Floor from './pages/Floors';
 import Units from './pages/Units';
 import Departments from './pages/Departments';
+import Visitors from './pages/Visitors';
+import Guarantors from './pages/Guarantors';
+import Complaints from './pages/Complaints';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -36,6 +39,9 @@ export default function Router() {
         { path: 'floors', element: <Floor /> },
         { path: 'units', element: <Units /> },
         { path: 'departments', element: <Departments /> },
+        { path: 'visitors', element: <Visitors /> },
+        { path: 'guarantors', element: <Guarantors /> },
+        { path: 'complaints', element: <Complaints /> },
       ],
     },
     {

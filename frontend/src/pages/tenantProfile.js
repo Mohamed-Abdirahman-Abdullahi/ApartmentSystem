@@ -4,6 +4,7 @@ import '../assets/profile.css';
 import Button from 'react-bootstrap/Button';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import moment from 'moment';
 import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 
 
@@ -17,6 +18,10 @@ export default function PersonalProfile() {
         register,
         handleSubmit,
     } = useForm();
+
+    const formatDate = (date) => {
+        return moment(date).format('DD/MM/YYYY');
+      }
 
     async function updateEmp(id, data) {
         await axios.patch(`http://localhost:9000/api/tenants/:${id}`,
@@ -118,6 +123,10 @@ export default function PersonalProfile() {
                                                         <MDBCol size="6" className="mb-3">
                                                             <MDBTypography tag="h6">Created by</MDBTypography>
                                                             <input type='text' {...register('createdBy')} onChange={() => setDisabled(false)} className="text-muted form-control" defaultValue={tenant.createdBy} />
+                                                        </MDBCol>
+                                                        <MDBCol size="6" className="mb-3">
+                                                            <MDBTypography tag="h6">End At</MDBTypography>
+                                                            <input {...register('endDate')} className="text-muted form-control" value={(tenant.status) ? "rent" : formatDate(tenant.updatedAt)} />
                                                         </MDBCol>
                                                     </MDBRow>
 

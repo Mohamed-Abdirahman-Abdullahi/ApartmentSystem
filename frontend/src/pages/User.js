@@ -190,7 +190,7 @@ export default function User() {
                           <td>{user.username}</td>
                           <td>{user.email}</td>
                           <td>{user.userGroupID}</td>
-                          <td><span style={{ borderRadius: '15px', background: 'green', color: 'white' }}>active</span></td>
+                          <td><span style={{  background: 'green', color: 'white' }}>active</span></td>
                           <td>{user.created_at}</td>
                           <td>
                             <div>
@@ -206,7 +206,7 @@ export default function User() {
                           <td>{user.username}</td>
                           <td>{user.email}</td>
                           <td>{user.userGroupID}</td>
-                          <td><span style={{ borderRadius: '20px', background: 'red', color: 'white' }}>inactive</span></td>
+                          <td><span style={{ background: 'red', color: 'white' }}>inactive</span></td>
                           <td>{user.created_at}</td>
                           <td>
                             <div>

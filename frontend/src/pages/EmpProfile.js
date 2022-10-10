@@ -4,6 +4,7 @@ import '../assets/profile.css';
 import Button from 'react-bootstrap/Button';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import moment from 'moment';
 import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 
 
@@ -18,8 +19,12 @@ export default function PersonalProfile() {
     handleSubmit,
   } = useForm();
 
+  const formatDate = (date) => {
+    return moment(date).format('DD/MM/YYYY');
+  }
+
   async function updateEmp(id, data) {
-      await axios.patch(`http://localhost:9000/api/employees/:${id}`,
+    await axios.patch(`http://localhost:9000/api/employees/:${id}`,
       {
         fullname: data.empName,
         gender: data.empGender,
@@ -29,7 +34,8 @@ export default function PersonalProfile() {
         department: data.empDepart,
         salary: data.salary,
         createdBy: data.createdBy,
-        status: data.empStatus
+        status: data.empStatus,
+        endDate: data.endDate.value
       })
       .then((res) => navigate('/dashboard/employees'))
       .catch((err) => setMessage('user not updated...'));
@@ -77,7 +83,7 @@ export default function PersonalProfile() {
                           </MDBRow>
 
                           <MDBRow className="pt-1">
-                          <MDBCol size="6" className="mb-3">
+                            <MDBCol size="6" className="mb-3">
                               <MDBTypography tag="h6">Telephone</MDBTypography>
                               <input type='number' {...register('empTel')} onChange={() => setDisabled(false)} className="text-muted form-control" defaultValue={emp.tel} />
                             </MDBCol>
@@ -121,8 +127,15 @@ export default function PersonalProfile() {
                               </select>
                             </MDBCol>
                             <MDBCol size="6" className="mb-3">
-                              <MDBTypography tag="h6">Created At</MDBTypography>
-                              <input className="text-muted form-control" value={emp.createdAt} />
+                              <MDBTypography tag="h6">Joined At</MDBTypography>
+                              <input className="text-muted form-control"  value={formatDate(emp.createdAt)} />
+                            </MDBCol>
+                          </MDBRow>
+
+                          <MDBRow className="pt-1">
+                            <MDBCol size="6" className="mb-3">
+                              <MDBTypography tag="h6">End At</MDBTypography>
+                              <input {...register('endDate')} className="text-muted form-control" value={(emp.status)?"working":formatDate(emp.updatedAt)} />
                             </MDBCol>
                           </MDBRow>
 

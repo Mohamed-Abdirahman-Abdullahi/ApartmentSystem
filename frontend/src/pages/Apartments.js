@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import {
     Card,
@@ -15,6 +14,7 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
+import moment from 'moment';
 
 // components
 import Page from '../components/Page';
@@ -33,6 +33,10 @@ export default function User() {
     const [show, setShow] = useState(false);
     const [data, setData] = useState();
     const [showUpdate, setShowUpdate] = useState(false);
+
+    const formatDate = (date) => {
+        return moment(date).format('DD/MM/YYYY');
+    };
 
     async function bindApartments() {
         axios.get(`http://localhost:9000/api/apartments`)
@@ -54,19 +58,19 @@ export default function User() {
     }
 
     async function updateApart(data) {
-        await axios.patch(`http://localhost:9000/api/apartments/:${data.id}`, 
-        {
-            name: data.name,
-            location: data.location,
-            address: data.address,
-            tel: data.tel,
-            status: data.status
-        })
-        .then((res) => {
-            setMessage("Apartment updated.");
-            window.location.reload();
-        })
-        .catch((err) => setMessage("Update failed."))
+        await axios.patch(`http://localhost:9000/api/apartments/:${data.id}`,
+            {
+                name: data.name,
+                location: data.location,
+                address: data.address,
+                tel: data.tel,
+                status: data.status
+            })
+            .then((res) => {
+                setMessage("Apartment updated.");
+                window.location.reload();
+            })
+            .catch((err) => setMessage("Update failed."))
     };
 
     function showAlert(id) {
@@ -96,11 +100,11 @@ export default function User() {
             .catch(err => console.log(err));
     };
 
-    const handleClose = () => { 
-        setShow(false); 
+    const handleClose = () => {
+        setShow(false);
         setShowUpdate(false);
         window.location.reload();
-     };
+    };
     const handleShow = () => setShow(true);
 
     const {
@@ -173,7 +177,7 @@ export default function User() {
                     top: '10%'
                 }}
             >
-                
+
                 <form onSubmit={handleSubmit(sumbData => updateApart(sumbData))} >
                     <Modal.Header closeButton>
                         <Modal.Title>UPDATE APARTMENT</Modal.Title>
@@ -243,7 +247,7 @@ export default function User() {
                                                     <td>{apart.address}</td>
                                                     <td>{apart.tel}</td>
                                                     <td ><span style={{ background: 'green', color: 'white' }}>active</span></td>
-                                                    <td>{apart.createdAt}</td>
+                                                    <td>{formatDate(apart.createdAt)}</td>
                                                     <td>
                                                         <div>
                                                             <button onClick={() => { getSelectedApart(apart._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
@@ -254,13 +258,13 @@ export default function User() {
                                             )
                                         } if (!apart.status) {
                                             return (
-                                                <tr style={{background: "#ffb7b7"}}>
+                                                <tr style={{ background: "#ffb7b7" }}>
                                                     <td name='username'>{apart.name}</td>
                                                     <td>{apart.location}</td>
                                                     <td>{apart.address}</td>
                                                     <td>{apart.tel}</td>
                                                     <td ><span style={{ background: 'red', color: 'white' }}>inactive</span></td>
-                                                    <td>{apart.createdAt}</td>
+                                                    <td>{formatDate(apart.createdAt)}</td>
                                                     <td>
                                                         <div style={{ display: 'grid', gridTemplateColumns: 'auto auto' }}>
                                                             <button onClick={() => { getSelectedApart(apart._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>

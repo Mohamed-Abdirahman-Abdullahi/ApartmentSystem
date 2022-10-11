@@ -11,6 +11,8 @@ const departments = require('./routes/departments/departments');
 const visitors = require('./routes/visitors/visitors');
 const guarantors = require('./routes/guarantors/guarantors');
 const complaints = require('./routes/complaints/complaints');
+const maintenances = require('./routes/maintenances/maintenances');
+
 const app = express();
 
 app.use(express.json())
@@ -26,6 +28,7 @@ app.use('/api/departments', departments);
 app.use('/api/visitors', visitors);
 app.use('/api/guarantors', guarantors);
 app.use('/api/complaints', complaints);
+app.use('/api/maintenances', maintenances);
 
 app.get('/', (req, res)=>{
     res.send("Server set up successfull.")

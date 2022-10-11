@@ -23,29 +23,29 @@ import '../assets/tblHover.css';
 // ----------------------------------------------------------------------
 
 export default function Visitors() {
-    const [compls, setCompls] = useState();
+    const [maintenances, setMaintenances] = useState();
     const [message, setMessage] = useState('');
 
     const formatDate = (date) => {
         return moment(date).format('DD/MM/YYYY');
     };
 
-    async function bindComplaints() {
-        axios.get(`http://localhost:9000/api/complaints`)
+    async function bindMaintenances() {
+        axios.get(`http://localhost:9000/api/maintenances`)
             .then(res => {
-                const compls = res.data;
-                setCompls(compls);
+                const mnts = res.data;
+                setMaintenances(mnts);
             })
-            .catch((err) => setMessage("Error: can't read complaints."))
+            .catch((err) => setMessage("Error: can't read maintenances."))
     };
 
-    async function updateComplaint(id) {
-        await axios.patch(`http://localhost:9000/api/complaints/:${id}`,
+    async function updateMaintenance(id) {
+        await axios.patch(`http://localhost:9000/api/maintenances/:${id}`,
             {
                 status: "true"
             })
             .then((res) => {
-                setMessage("Complaint updated.");
+                setMessage("Maintenances updated.");
             })
             .catch((err) => setMessage("Update failed."))
     };
@@ -57,7 +57,7 @@ export default function Visitors() {
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => deleteSelectedComplaint(id),
+                    onClick: () => deleteSelectedMaintenance(id),
                     style: { background: 'red' }
                 },
                 {
@@ -67,18 +67,18 @@ export default function Visitors() {
         });
     };
 
-    async function deleteSelectedComplaint(id) {
-        await axios.delete(`http://localhost:9000/api/complaints/:${id}`)
+    async function deleteSelectedMaintenance(id) {
+        await axios.delete(`http://localhost:9000/api/maintenances/:${id}`)
             .then(res => {
-                const deletedCompl = res.data;
-                setMessage(`complaint removed.`);
+                const deletedMnt = res.data;
+                setMessage(`maintenance removed.`);
             })
             .catch(err => console.log(err));
     };
 
 
     useEffect(() => {
-        bindComplaints();
+        bindMaintenances();
     }, [message]);
 
     return (
@@ -86,7 +86,7 @@ export default function Visitors() {
             <Container>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                     <Typography variant="h4" gutterBottom>
-                        Complaints
+                        Maintenances
                     </Typography>
                 </Stack>
                 <p style={{ textAlign: 'center' }}>{message}</p>
@@ -109,38 +109,38 @@ export default function Visitors() {
                             </MDBTableHead>
                             <MDBTableBody>
                                 {
-                                    compls?.map((compl, key) => {
-                                        if (compl.status) {
+                                    maintenances?.map((mnt, key) => {
+                                        if (mnt.status) {
                                             return (
                                                 <tr>
-                                                    <td>{compl.tenant}</td>
-                                                    <td>{compl.subject}</td>
-                                                    <td>{compl.message}</td>
+                                                    <td>{mnt.tenant}</td>
+                                                    <td>{mnt.subject}</td>
+                                                    <td>{mnt.message}</td>
                                                     <td ><span style={{background:"green", color:"white"}}>done</span></td>
-                                                    <td>{formatDate(compl.createdAt)}</td>
-                                                    <td>{formatDate(compl.updatedAt)}</td>
+                                                    <td>{formatDate(mnt.createdAt)}</td>
+                                                    <td>{formatDate(mnt.updatedAt)}</td>
                                                     <td>
                                                         <div style={{ display: 'flex' }}>
-                                                            <button onClick={() => { updateComplaint(compl._id) }} className="btn" id='mybtn'><i className="fa fa-check" style={{ color: 'blue' }} /></button>
-                                                            <button onClick={() => { showAlert(compl._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
+                                                            <button onClick={() => { updateMaintenance(mnt._id) }} className="btn" id='mybtn'><i className="fa fa-check" style={{ color: 'blue' }} /></button>
+                                                            <button onClick={() => { showAlert(mnt._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             )
                                         }
-                                        if (!compl.status) {
+                                        if (!mnt.status) {
                                             return (
                                                 <tr>
-                                                    <td>{compl.tenant}</td>
-                                                    <td>{compl.subject}</td>
-                                                    <td>{compl.message}</td>
+                                                    <td>{mnt.tenant}</td>
+                                                    <td>{mnt.subject}</td>
+                                                    <td>{mnt.message}</td>
                                                     <td><span style={{background:"red", color:"white"}}>pending</span></td>
-                                                    <td>{formatDate(compl.createdAt)}</td>
+                                                    <td>{formatDate(mnt.createdAt)}</td>
                                                     <td>inprogress</td>
                                                     <td>
                                                         <div style={{ display: 'flex' }}>
-                                                            <button onClick={() => { updateComplaint(compl._id) }} className="btn" id='mybtn'><i className="fa fa-check" style={{ color: 'blue' }} /></button>
-                                                            <button onClick={() => { showAlert(compl._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
+                                                            <button onClick={() => { updateMaintenance(mnt._id) }} className="btn" id='mybtn'><i className="fa fa-check" style={{ color: 'blue' }} /></button>
+                                                            <button onClick={() => { showAlert(mnt._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
                                                         </div>
                                                     </td>
                                                 </tr>

@@ -4,6 +4,7 @@ import '../assets/profile.css';
 import Button from 'react-bootstrap/Button';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import moment from 'moment';
 import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 
 
@@ -14,6 +15,10 @@ export default function PersonalProfile() {
   const [isDisabled, setDisabled] = useState(true);
   const [message, setMessage] = useState('');
 
+  const formatDate = (date) => {
+    return moment(date).format('DD/MM/YYYY');
+  };
+
   const {
     register,
     handleSubmit,
@@ -21,29 +26,37 @@ export default function PersonalProfile() {
   } = useForm();
 
   async function updateUser(id, data) {
-    if(data.password === ''){
+    if (data.password === '') {
       await axios.patch(`http://localhost:9000/api/users/:${id}`,
-      {
-        username: data.username,
+        {
+        fullname: data.fullname,
+        gender: data.gender,
+        tel: data.tel,
         email: data.email,
-        status: data.status,
-        userGroupID: data.userGroupID
-      })
-      .then((res) => navigate('/dashboard/user'))
-      .catch((err) => setMessage('user not updated...'));
-    } else {
-      await axios.patch(`http://localhost:9000/api/users/:${id}`,
-      {
+        address: data.address,
         username: data.username,
-        email: data.email,
         password: data.password,
         status: data.status,
-        userGroupId: data.userGroupID
-      })
-      .then((res) => navigate('/dashboard/user'))
-      .catch((err) => console.log(err));
+        userGroupID: data.userGroupID
+        })
+        .then((res) => navigate('/dashboard/user'))
+        .catch((err) => setMessage('user not updated...'));
+    } else {
+      await axios.patch(`http://localhost:9000/api/users/:${id}`,
+        {
+          fullname: data.fullname,
+          gender: data.gender,
+          tel: data.tel,
+          email: data.email,
+          address: data.address,
+          username: data.username,
+          status: data.status,
+          userGroupID: data.userGroupID
+        })
+        .then((res) => navigate('/dashboard/user'))
+        .catch((err) => console.log(err));
     }
-   
+
   };
 
   return (
@@ -76,21 +89,47 @@ export default function PersonalProfile() {
 
                           <MDBTypography tag="h6">Information</MDBTypography>
                           <hr className="mt-0 mb-4" />
+                          
+                          <MDBRow className="pt-1">
+                            <MDBCol size="6" className="mb-3" key={key}>
+                              <MDBTypography tag="h6">Fullname</MDBTypography>
+                              <input type='text' id='form1' {...register('fullname')} onChange={() => setDisabled(false)} className="text-muted form-control" defaultValue={user.fullname} />
+                            </MDBCol>
+                            <MDBCol size="6" className="mb-3">
+                              <MDBTypography tag="h6">Gender</MDBTypography>
+                              <select {...register('gender')} className='form-control mt-2' id="exampleFormControlSelect">
+                                <option value={user.gender} style={{color:'gray'}}>{user.gender}</option>
+                                <option value={(user.gender === "male") ? "female" : "male"}>{(user.gender === "male") ? "female" : "male"}</option>
+                              </select>
+                            </MDBCol>
+                          </MDBRow>
+
+                          <MDBRow className="pt-1">
+                            <MDBCol size="6" className="mb-3" key={key}>
+                              <MDBTypography tag="h6">Telephone</MDBTypography>
+                              <input type='number' id='form1' {...register('tel')} onChange={() => setDisabled(false)} className="text-muted form-control" defaultValue={user.tel} />
+                            </MDBCol>
+                            <MDBCol size="6" className="mb-3" key={key}>
+                              <MDBTypography tag="h6">Email</MDBTypography>
+                              <input type='email' id='form1' {...register('email')} onChange={() => setDisabled(false)} className="text-muted form-control" defaultValue={user.email} />
+                            </MDBCol>
+                          </MDBRow>
+
                           <MDBRow className="pt-1">
                             <MDBCol size="6" className="mb-3" key={key}>
                               <MDBTypography tag="h6">Username</MDBTypography>
                               <input type='text' id='form1' {...register('username')} onChange={() => setDisabled(false)} className="text-muted form-control" defaultValue={user.username} />
                             </MDBCol>
                             <MDBCol size="6" className="mb-3">
-                              <MDBTypography tag="h6">Email</MDBTypography>
-                              <input type='email' {...register('email')} onChange={() => setDisabled(false)} className="text-muted form-control" defaultValue={user.email} />
+                              <MDBTypography tag="h6">Password</MDBTypography>
+                              <input type='password' {...register('password')} onChange={() => setDisabled(false)} className="text-muted form-control" defaultValue='' />
                             </MDBCol>
                           </MDBRow>
 
                           <MDBRow className="pt-1">
                             <MDBCol size="6" className="mb-3">
-                              <MDBTypography tag="h6">Password</MDBTypography>
-                              <input type='password' {...register('password')} onChange={() => setDisabled(false)} className="text-muted form-control" defaultValue='' />
+                              <MDBTypography tag="h6">Address</MDBTypography>
+                              <input type='text' {...register('address')} onChange={() => setDisabled(false)} className="text-muted form-control" defaultValue={user.address} />
                             </MDBCol>
                             <MDBCol size="6" className="mb-3">
                               <MDBTypography tag="h6">Status</MDBTypography>
@@ -112,8 +151,30 @@ export default function PersonalProfile() {
                               </select>
                             </MDBCol>
                             <MDBCol size="6" className="mb-3">
-                              <MDBTypography tag="h6">Created</MDBTypography>
-                              <input className="text-muted form-control" value={user.created_at} />
+                              <MDBTypography tag="h6">Last login</MDBTypography>
+                              <input className="text-muted form-control" value={formatDate(user.lastLogin)} />
+                            </MDBCol>
+                          </MDBRow>
+
+                          <MDBRow className="pt-1">
+                            <MDBCol size="6" className="mb-3">
+                              <MDBTypography tag="h6">Logged in</MDBTypography>
+                              <input type='text' {...register('loggedIn')} onChange={() => setDisabled(false)} className="text-muted form-control" value={user.loggedIn} />
+                            </MDBCol>
+                            <MDBCol size="6" className="mb-3">
+                              <MDBTypography tag="h6">No. of tries</MDBTypography>
+                              <input type='number' {...register('noOfTries')} onChange={() => setDisabled(false)} className="text-muted form-control" value={user.noOfTries} />
+                            </MDBCol>
+                          </MDBRow>
+
+                          <MDBRow className="pt-1">
+                            <MDBCol size="6" className="mb-3">
+                              <MDBTypography tag="h6">Joined at</MDBTypography>
+                              <input type='text' {...register('createdAt')} onChange={() => setDisabled(false)} className="text-muted form-control" value={formatDate(user.createdAt)} />
+                            </MDBCol>
+                            <MDBCol size="6" className="mb-3">
+                              <MDBTypography tag="h6">End at</MDBTypography>
+                              <input type='text' {...register('updatedAt')} onChange={() => setDisabled(false)} className="text-muted form-control" value={(user.status)?"working":formatDate(user.updatedAt)} />
                             </MDBCol>
                           </MDBRow>
 

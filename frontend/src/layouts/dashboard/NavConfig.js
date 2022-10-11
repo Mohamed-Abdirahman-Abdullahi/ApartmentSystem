@@ -64,7 +64,6 @@ const navConfig = [
   },
   {
     title: 'inbox',
-    path: '/dashboard/inbox',
     icon: getIcon('carbon:email'),
     children: [{
       title: 'Complaints',
@@ -73,7 +72,7 @@ const navConfig = [
     },
     {
       title: 'Maintenances',
-      path: '/dashboard/inbox',
+      path: '/dashboard/maintenances',
       icon: getIcon('carbon:email'),
     }
     ]

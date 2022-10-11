@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import {
     Card,
@@ -15,7 +14,7 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
-
+import moment from 'moment';
 // components
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
@@ -33,6 +32,10 @@ export default function Departments() {
     const [show, setShow] = useState(false);
     const [data, setData] = useState();
     const [showUpdate, setShowUpdate] = useState(false);
+
+    const formatDate = (date) => {
+        return moment(date).format('DD/MM/YYYY');
+    };
 
     async function bindDepartments() {
         axios.get(`http://localhost:9000/api/departments`)
@@ -228,7 +231,7 @@ export default function Departments() {
                                                 <td>{dept.name}</td>
                                                 <td>{dept.manager}</td>
                                                 <td>{dept.phone}</td>
-                                                <td>{dept.createdAt}</td>
+                                                <td>{formatDate(dept.createdAt)}</td>
                                                 <td>
                                                     <div>
                                                         <button onClick={() => { getSelectedDepart(dept._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>

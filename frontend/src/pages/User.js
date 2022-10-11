@@ -91,19 +91,21 @@ export default function User() {
   async function addNewUser(e) {
     if (e.password === e.confPassword) {
       await axios.post('http://localhost:9000/api/users', {
-        username: e.username,
+        fullname: e.fullname,
+        gender: e.gender,
+        tel: e.tel,
         email: e.email,
+        address: e.address,
+        username: e.username,
         password: e.password,
-        status: e.status,
         userGroupID: e.userGroupID
       })
         .then(res => {
           setMessage('new user added');
           setShow(false);
-          window.location.reload();
         })
         .catch(err => {
-          setMessage('new use creation failed...');
+          setMessage('new user creation failed...');
         });
     }
     else {
@@ -114,7 +116,7 @@ export default function User() {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  }, [message]);
 
   return (
     <Page title="User">
@@ -134,15 +136,18 @@ export default function User() {
           <p style={{ textAlign: 'center' }}>{message}</p>
 
           <Modal.Body>
-            <input type='text' {...register('username')} placeholder='enter username' className='form-control' />
+            <input type='text' {...register('fullname')} placeholder='enter fullname' className='form-control' />
+            <select {...register('gender')} className='form-control mt-2' id="exampleFormControlSelect">
+              <option value='' style={{ color: 'grey' }}>gender</option>
+              <option value='male'>male</option>
+              <option value='female'>female</option>
+            </select>            
+            <input type='number' {...register('tel')} placeholder='enter tel' className='form-control mt-2' />
             <input type='email' {...register('email')} placeholder='enter email' className='form-control mt-2' />
+            <input type='text' {...register('address')} placeholder='enter address' className='form-control mt-2' />
+            <input type='text' {...register('username')} placeholder='enter username' className='form-control mt-2' />
             <input type='password' {...register('password')} placeholder='enter password' className='form-control mt-2' />
             <input type='password' {...register('confPassword')} placeholder='confirm password' className='form-control mt-2' />
-            <select {...register('status')} className='form-control mt-2' id="exampleFormControlSelect">
-              <option value='false' style={{ color: 'grey' }}>status</option>
-              <option value='true'>active</option>
-              <option value='false'>inactive</option>
-            </select>
             <select {...register('userGroupID')} className='form-control mt-2' id="exampleFormControlSelect">
               <option value='unknown' style={{ color: 'grey' }}>userGroupID</option>
               <option value='unknown'>managers</option>
@@ -177,11 +182,13 @@ export default function User() {
             <MDBTable >
               <MDBTableHead light >
                 <tr>
-                  <th scope='col'>username</th>
+                  <th scope='col'>name</th>
+                  <th scope='col'>gender</th>
+                  <th scope='col'>address</th>
                   <th scope='col'>email</th>
-                  <th scope='col'>userGroupID</th>
+                  <th scope='col'>username</th>
                   <th scope='col'>status</th>
-                  <th scope='col'>created_at</th>
+                  <th scope='col'>joinedAt</th>
                   <th scope='col'>actions</th>
                 </tr>
               </MDBTableHead>
@@ -191,10 +198,12 @@ export default function User() {
                     if (user.status.toString() === 'true') {
                       return (
                         <tr key={key}>
-                          <td>{user.username}</td>
+                          <td>{user.fullname}</td>
+                          <td>{user.gender}</td>
+                          <td>{user.address}</td>
                           <td>{user.email}</td>
-                          <td>{user.userGroupID}</td>
-                          <td><span style={{  background: 'green', color: 'white' }}>active</span></td>
+                          <td>{user.username}</td>
+                          <td><span style={{ background: 'green', color: 'white' }}>active</span></td>
                           <td>{formatDate(user.created_at)}</td>
                           <td>
                             <div>
@@ -206,14 +215,16 @@ export default function User() {
                       )
                     } if (user.status.toString() === 'false') {
                       return (
-                        <tr key={key} style={{background: "#ffb7b7"}}>
-                          <td>{user.username}</td>
+                        <tr key={key} style={{ background: "#ffb7b7" }}>
+                        <td>{user.fullname}</td>
+                          <td>{user.gender}</td>
+                          <td>{user.address}</td>
                           <td>{user.email}</td>
-                          <td>{user.userGroupID}</td>
+                          <td>{user.username}</td>
                           <td><span style={{ background: 'red', color: 'white' }}>inactive</span></td>
                           <td>{formatDate(user.created_at)}</td>
                           <td>
-                            <div>
+                            <div style={{display:"flex"}}>
                               <button onClick={() => { getSelectedUser(user._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
                               <button onClick={() => { showAlert(user._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
                             </div>

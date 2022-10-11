@@ -20,6 +20,7 @@ import Departments from './pages/Departments';
 import Visitors from './pages/Visitors';
 import Guarantors from './pages/Guarantors';
 import Complaints from './pages/Complaints';
+import Maintenances from './pages/Maintenances'
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -42,6 +43,7 @@ export default function Router() {
         { path: 'visitors', element: <Visitors /> },
         { path: 'guarantors', element: <Guarantors /> },
         { path: 'complaints', element: <Complaints /> },
+        { path: 'maintenances', element: <Maintenances /> },
       ],
     },
     {

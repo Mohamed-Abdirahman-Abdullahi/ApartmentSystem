@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import {
     Card,
@@ -15,7 +14,7 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
-
+import moment from 'moment';
 // components
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
@@ -33,6 +32,10 @@ export default function Units() {
     const [show, setShow] = useState(false);
     const [data, setData] = useState();
     const [showUpdate, setShowUpdate] = useState(false);
+
+    const formatDate = (date) => {
+        return moment(date).format('DD/MM/YYYY');
+    };
 
     async function bindUnits() {
         axios.get(`http://localhost:9000/api/units`)
@@ -248,7 +251,7 @@ export default function Units() {
                                                     <td>{unit.numberOfKitchens}</td>
                                                     <td>{unit.numberOfBalkings}</td>
                                                     <td ><span style={{ background: 'green', color: 'white' }}>active</span></td>
-                                                    <td>{unit.createdAt}</td>
+                                                    <td>{formatDate(unit.createdAt)}</td>
                                                     <td>
                                                         <div>
                                                             <button onClick={() => { getSelectedUnit(unit._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
@@ -267,7 +270,7 @@ export default function Units() {
                                                     <td>{unit.numberOfKitchens}</td>
                                                     <td>{unit.numberOfBalkings}</td>
                                                     <td ><span style={{ background: 'red', color: 'white' }}>inactive</span></td>
-                                                    <td>{unit.createdAt}</td>
+                                                    <td>{formatDate(unit.createdAt)}</td>
                                                     <td>
                                                         <div style={{ display: "flex" }}>
                                                             <button onClick={() => { getSelectedUnit(unit._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>

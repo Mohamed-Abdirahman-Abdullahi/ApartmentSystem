@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import {
     Card,
@@ -15,7 +14,7 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import Modal from 'react-bootstrap/Modal';
 import { useForm } from 'react-hook-form';
-
+import moment from 'moment';
 // components
 import Page from '../components/Page';
 import Scrollbar from '../components/Scrollbar';
@@ -33,6 +32,10 @@ export default function User() {
     const [show, setShow] = useState(false);
     const [data, setData] = useState();
     const [showUpdate, setShowUpdate] = useState(false);
+
+    const formatDate = (date) => {
+        return moment(date).format('DD/MM/YYYY');
+    };
 
     async function bindFloors() {
         axios.get(`http://localhost:9000/api/floors`)
@@ -229,7 +232,7 @@ export default function User() {
                                                     <td name='username'>{floor.name}</td>
                                                     <td>{floor.apartment.name}</td>
                                                     <td ><span style={{ background: 'green', color: 'white' }}>active</span></td>
-                                                    <td>{floor.createdAt}</td>
+                                                    <td>{formatDate(floor.createdAt)}</td>
                                                     <td>
                                                         <div>
                                                             <button onClick={() => { getSelectedFloor(floor._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
@@ -244,7 +247,7 @@ export default function User() {
                                                     <td name='username'>{floor.name}</td>
                                                     <td>{floor.apartment.name}</td>
                                                     <td ><span style={{ background: 'red', color: 'white' }}>inactive</span></td>
-                                                    <td>{floor.createdAt}</td>
+                                                    <td>{formatDate(floor.createdAt)}</td>
                                                     <td>
                                                         <div>
                                                             <button onClick={() => { getSelectedFloor(floor._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>

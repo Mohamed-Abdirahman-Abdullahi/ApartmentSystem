@@ -5,26 +5,55 @@ const validator = require("validator");
 // Creating user schema
 const userSchema = connection.Schema(
     {
-        username: {
+        fullname: {
             type: String,
             required: true
         },
-        email: { 
+        gender: {
+            type: String, 
+            required: true
+        },
+        tel: {
+            type: Number,
+            unique: true,
+            required: true
+        },
+         email: { 
             type: String, 
             unique: true,
             required: true
         },
-        password: {
+        address: {
             type: String,
             required: true
         },
+        username: {
+            type: String,
+        },
+        password: {
+            type: String,
+        },
         status: {
             type: Boolean,
-            required: true
+            default: false
         },
-        userGroupID: {type: String},
-        created_at: { type: Date, default: Date.now },
+        userGroupID: 
+        {
+            type: String
+        },
+        lastLogin: {
+            type: Date
+        },
+        loggedIn: {
+            type: Boolean,
+            default: false
+        },
+        noOfTries: {
+            type: Number,
+            default: 0
+        }
     },
+    { timestamps: true }
 )
 
 // static signup method
@@ -81,6 +110,6 @@ userSchema.statics.login = async function (email, password) {
 
 
 // creatin user model
-const User = connection.model('User', userSchema);
+const User = connection.model('Users', userSchema);
 
 module.exports = User;

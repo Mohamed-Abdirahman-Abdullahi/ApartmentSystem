@@ -63,7 +63,7 @@ const navConfig = [
     ]
   },
   {
-    title: 'inbox',
+    title: 'inboxes',
     icon: getIcon('carbon:email'),
     children: [{
       title: 'Complaints',

@@ -31,7 +31,7 @@ export default function Visitors() {
     };
 
     async function bindMaintenances() {
-        axios.get(`http://localhost:9000/api/maintenances`)
+        await axios.get(`http://localhost:9000/api/maintenances`)
             .then(res => {
                 const mnts = res.data;
                 setMaintenances(mnts);

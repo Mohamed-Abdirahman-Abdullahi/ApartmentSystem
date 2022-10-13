@@ -1,38 +1,39 @@
-const Maintenances = require("../../models/maintenances/maintenances");
+const Inboxes = require("../../models/inboxes/inboxes");
 
-const getMaintenances = (req, res) => {
-    Maintenances.find((err, maintenances) => {
+const getInboxes = (req, res) => {
+    Inboxes.find((err, inboxes) => {
         if (err) {
             res.send(err);
         }
-        res.json(maintenances);
+        res.json(inboxes);
     });
 };
 
-const getMaintenance = async (req, res) => {
+const getInbox = async (req, res) => {
     const { id } = req.params;
     const removedCol = id.replace(':', "")
 
-    const maintenance = await Maintenances.find({_id: removedCol})
+    const maintenance = await Inboxes.find({_id: removedCol})
 
     res.status(200).json(maintenance)
 };
 
-const createMaintenance = async (req, res) => {
-    const maintenance = await Maintenances.create({
+const createInbox = async (req, res) => {
+    const maintenance = await Inboxes.create({
         tenant: req.body.tenant,
         subject: req.body.subject,
         message: req.body.message,
+        type: req.body.type
     });
 
     res.json(maintenance);
 };
 
-const updateMaintenance = async (req, res) => {
+const updateInbox = async (req, res) => {
     const { id } = req.params;
     const removedCol = id.replace(':', "")
 
-    const maintenance = await Maintenances.findOneAndUpdate(
+    const maintenance = await Inboxes.findOneAndUpdate(
         { _id: removedCol },
         {
             ...req.body,
@@ -42,19 +43,19 @@ const updateMaintenance = async (req, res) => {
     res.send(maintenance);
 };
 
-const deleteMaintenance = (req, res) => {
+const deleteInbox = (req, res) => {
     const { id } = req.params;
     const removedCol = id.replace(':', "")
 
-    Maintenances.deleteOne({ _id: removedCol })
+    Inboxes.deleteOne({ _id: removedCol })
         .then(() => res.json({ message: "maintenance removed" }))
         .catch((err) => res.send(err));
 };
 
 module.exports = {
-    getMaintenances,
-    getMaintenance,
-    createMaintenance,
-    updateMaintenance,
-    deleteMaintenance,
+    getInboxes,
+    getInbox,
+    createInbox,
+    updateInbox,
+    deleteInbox,
 };

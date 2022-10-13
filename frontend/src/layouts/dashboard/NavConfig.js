@@ -64,18 +64,8 @@ const navConfig = [
   },
   {
     title: 'inboxes',
+    path: '/dashboard/inboxes',
     icon: getIcon('carbon:email'),
-    children: [{
-      title: 'Complaints',
-      path: '/dashboard/complaints',
-      icon: getIcon('carbon:email'),
-    },
-    {
-      title: 'Maintenances',
-      path: '/dashboard/maintenances',
-      icon: getIcon('carbon:email'),
-    }
-    ]
   },
   {
     title: 'reports',

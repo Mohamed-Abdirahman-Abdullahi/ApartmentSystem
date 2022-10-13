@@ -10,8 +10,7 @@ const units = require('./routes/units/units');
 const departments = require('./routes/departments/departments');
 const visitors = require('./routes/visitors/visitors');
 const guarantors = require('./routes/guarantors/guarantors');
-const complaints = require('./routes/complaints/complaints');
-const maintenances = require('./routes/maintenances/maintenances');
+const inboxes = require('./routes/inboxes/inboxes');
 
 const app = express();
 
@@ -27,8 +26,7 @@ app.use('/api/units', units);
 app.use('/api/departments', departments);
 app.use('/api/visitors', visitors);
 app.use('/api/guarantors', guarantors);
-app.use('/api/complaints', complaints);
-app.use('/api/maintenances', maintenances);
+app.use('/api/inboxes', inboxes);
 
 app.get('/', (req, res)=>{
     res.send("Server set up successfull.")

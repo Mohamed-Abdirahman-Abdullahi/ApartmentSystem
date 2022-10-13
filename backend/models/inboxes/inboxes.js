@@ -1,10 +1,9 @@
 const connection = require('../../connection/connection');
 
-const complaintScheme = connection.Schema({
-    tenant : {
+const inboxScheme = connection.Schema({
+    tenant: {
         type: String,
         required: true,
-      
     },
     subject: {
         type: String,
@@ -14,17 +13,23 @@ const complaintScheme = connection.Schema({
         type: String,
         require: true
     },
+    type: 
+    {
+        type: String,
+        required: true
+    },
     status:
     {
         type: Boolean,
         default: false
-    },   
+    },
 },
 
-{
-    timestamps: true}
-       
+    {
+        timestamps: true
+    }
+
 )
 
-const complaints = connection.model('Complaints', complaintScheme);
-module.exports = complaints;
+const Maintenances = connection.model('Inboxes', inboxScheme);
+module.exports = Maintenances;

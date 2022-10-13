@@ -30,8 +30,7 @@ import MenuPopover from '../../components/MenuPopover';
 export default function NotificationsPopover() {
   const navigate = useNavigate();
   const anchorRef = useRef(null);
-  const [maintenances, setMaintenances] = useState();
-  const [compls, setCompls] = useState();
+  const [inboxes, setInboxes] = useState();
   const [message, setMessage] = useState("");
   const [totalUnRead, setTotalUnRead] = useState(0);
   const [open, setOpen] = useState(null);
@@ -44,29 +43,19 @@ export default function NotificationsPopover() {
     setOpen(null);
   };
 
-  const bindCompls = async () => {
-    await axios.get(`http://localhost:9000/api/complaints`)
+  const bindInboxes = async () => {
+    await axios.get(`http://localhost:9000/api/inboxes`)
       .then(res => {
-        const compls = res.data;
-        setCompls(compls);
-        setTotalUnRead(totalUnRead + compls.filter((item) => item.status === false).length);
+        const inboxes = res.data;
+        setInboxes(inboxes);
+        setTotalUnRead(totalUnRead + inboxes.filter((item) => item.status === false).length);
       })
-      .catch((err) => setMessage("Error: can't read complaints."))
+      .catch((err) => setMessage("Error: can't read inboxes."))
   };
 
-  const bindMaintenances = async () => {
-    await axios.get(`http://localhost:9000/api/maintenances`)
-      .then(res => {
-        const mnts = res.data;
-        setMaintenances(mnts);
-        setTotalUnRead(totalUnRead + mnts.filter((item) => item.status === false).length);
-      })
-      .catch((err) => setMessage("Error: can't read maintenances."))
-  };
 
   useEffect(() => {
-    bindCompls();
-    bindMaintenances();
+    bindInboxes();
   }, []);
 
   return (
@@ -107,42 +96,22 @@ export default function NotificationsPopover() {
             disablePadding
             subheader={
               <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                Complaints
+                Inboxes
               </ListSubheader>
             }
           >
-            {compls?.map((compl) => {
-              if (!compl.status) {
+            {inboxes?.map((inbox) => {
+              if (!inbox.status) {
                 return (
-                  <Button onClick={() => { navigate('/dashboard/complaints'); setOpen(false) }}
+                  <Button onClick={() => { navigate('/dashboard/inboxes'); setOpen(false) }}
                     style={{ width: '100%' }}>
-                    <NotificationItem key={compl._id} notification={compl} />
+                    <NotificationItem key={inbox._id} notification={inbox} />
                   </Button>
                 )
               };
               return null;
             }
             )}
-          </List>
-
-          <List
-            disablePadding
-            subheader={
-              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                Maintenances
-              </ListSubheader>
-            }
-          >
-            {maintenances?.map((mnts) => {
-              if (!mnts.status) {
-                return (
-                  <Button onClick={() => { navigate('/dashboard/maintenances'); setOpen(false) }}
-                    style={{ width: '100%' }}>
-                    <NotificationItem key={mnts._id} notification={mnts} />
-                  </Button>)
-              };
-              return null;
-            })}
           </List>
         </Scrollbar>
 
@@ -214,6 +183,5 @@ function NotificationItem({ notification }) {
     </ListItemButton>
   );
 }
-
 
 // ----------------------------------------------------------------------

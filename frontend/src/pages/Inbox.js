@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import {
     Card,
     Stack,
-    Button,
     Container,
     Typography,
 } from '@mui/material';
@@ -23,29 +22,29 @@ import '../assets/tblHover.css';
 // ----------------------------------------------------------------------
 
 export default function Visitors() {
-    const [compls, setCompls] = useState();
+    const [inboxes, setMaintenances] = useState();
     const [message, setMessage] = useState('');
 
     const formatDate = (date) => {
         return moment(date).format('DD/MM/YYYY');
     };
 
-    async function bindComplaints() {
-        axios.get(`http://localhost:9000/api/complaints`)
+    async function bindInboxes() {
+        await axios.get(`http://localhost:9000/api/inboxes`)
             .then(res => {
-                const compls = res.data;
-                setCompls(compls);
+                const mnts = res.data;
+                setMaintenances(mnts);
             })
-            .catch((err) => setMessage("Error: can't read complaints."))
+            .catch((err) => setMessage("Error: can't read inboxes."))
     };
 
-    async function updateComplaint(id) {
-        await axios.patch(`http://localhost:9000/api/complaints/:${id}`,
+    async function updateInbox(id) {
+        await axios.patch(`http://localhost:9000/api/inboxes/:${id}`,
             {
                 status: "true"
             })
             .then((res) => {
-                setMessage("Complaint updated.");
+                setMessage("Inbox updated.");
             })
             .catch((err) => setMessage("Update failed."))
     };
@@ -57,7 +56,7 @@ export default function Visitors() {
             buttons: [
                 {
                     label: 'Yes',
-                    onClick: () => deleteSelectedComplaint(id),
+                    onClick: () => deleteInbox(id),
                     style: { background: 'red' }
                 },
                 {
@@ -67,18 +66,18 @@ export default function Visitors() {
         });
     };
 
-    async function deleteSelectedComplaint(id) {
-        await axios.delete(`http://localhost:9000/api/complaints/:${id}`)
+    async function deleteInbox(id) {
+        await axios.delete(`http://localhost:9000/api/inboxes/:${id}`)
             .then(res => {
-                const deletedCompl = res.data;
-                setMessage(`complaint removed.`);
+                const deletedInbox = res.data;
+                setMessage(`inbox removed.`);
             })
             .catch(err => console.log(err));
     };
 
 
     useEffect(() => {
-        bindComplaints();
+        bindInboxes();
     }, [message]);
 
     return (
@@ -86,7 +85,7 @@ export default function Visitors() {
             <Container>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                     <Typography variant="h4" gutterBottom>
-                        Complaints
+                        Inbox
                     </Typography>
                 </Stack>
                 <p style={{ textAlign: 'center' }}>{message}</p>
@@ -101,6 +100,7 @@ export default function Visitors() {
                                     <th scope='col'>tenant</th>
                                     <th scope='col'>subject</th>
                                     <th scope='col'>message</th>
+                                    <th scope='col'>type</th>
                                     <th scope='col'>status</th>
                                     <th scope='col'>sendDate</th>
                                     <th scope='col'>doneDate</th>
@@ -109,38 +109,40 @@ export default function Visitors() {
                             </MDBTableHead>
                             <MDBTableBody>
                                 {
-                                    compls?.map((compl, key) => {
-                                        if (compl.status) {
+                                    inboxes?.map((inbox, key) => {
+                                        if (inbox.status) {
                                             return (
                                                 <tr>
-                                                    <td>{compl.tenant}</td>
-                                                    <td>{compl.subject}</td>
-                                                    <td>{compl.message}</td>
+                                                    <td>{inbox.tenant}</td>
+                                                    <td>{inbox.subject}</td>
+                                                    <td>{inbox.message}</td>
+                                                    <td>{inbox.type}</td>
                                                     <td ><span style={{background:"green", color:"white"}}>done</span></td>
-                                                    <td>{formatDate(compl.createdAt)}</td>
-                                                    <td>{formatDate(compl.updatedAt)}</td>
+                                                    <td>{formatDate(inbox.createdAt)}</td>
+                                                    <td>{formatDate(inbox.updatedAt)}</td>
                                                     <td>
                                                         <div style={{ display: 'flex' }}>
-                                                            <button onClick={() => { updateComplaint(compl._id) }} className="btn" id='mybtn'><i className="fa fa-check" style={{ color: 'blue' }} /></button>
-                                                            <button onClick={() => { showAlert(compl._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
+                                                            <button onClick={() => { updateInbox(inbox._id) }} className="btn" id='mybtn'><i className="fa fa-check" style={{ color: 'blue' }} /></button>
+                                                            <button onClick={() => { showAlert(inbox._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             )
                                         }
-                                        if (!compl.status) {
+                                        if (!inbox.status) {
                                             return (
                                                 <tr>
-                                                    <td>{compl.tenant}</td>
-                                                    <td>{compl.subject}</td>
-                                                    <td>{compl.message}</td>
+                                                    <td>{inbox.tenant}</td>
+                                                    <td>{inbox.subject}</td>
+                                                    <td>{inbox.message}</td>
+                                                    <td>{inbox.type}</td>
                                                     <td><span style={{background:"red", color:"white"}}>pending</span></td>
-                                                    <td>{formatDate(compl.createdAt)}</td>
+                                                    <td>{formatDate(inbox.createdAt)}</td>
                                                     <td>inprogress</td>
                                                     <td>
                                                         <div style={{ display: 'flex' }}>
-                                                            <button onClick={() => { updateComplaint(compl._id) }} className="btn" id='mybtn'><i className="fa fa-check" style={{ color: 'blue' }} /></button>
-                                                            <button onClick={() => { showAlert(compl._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
+                                                            <button onClick={() => { updateInbox(inbox._id) }} className="btn" id='mybtn'><i className="fa fa-check" style={{ color: 'blue' }} /></button>
+                                                            <button onClick={() => { showAlert(inbox._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
                                                         </div>
                                                     </td>
                                                 </tr>

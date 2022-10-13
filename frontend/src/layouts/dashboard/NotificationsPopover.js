@@ -177,7 +177,7 @@ function NotificationItem({ notification }) {
         ...(!notification.status && {
           bgcolor: 'action.selected',
         }),
-        height:60
+        height:70
       }}
     >
       <ListItemAvatar>

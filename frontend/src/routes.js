@@ -6,7 +6,6 @@ import LogoOnlyLayout from './layouts/LogoOnlyLayout';
 import User from './pages/User';
 import Login from './pages/Login';
 import NotFound from './pages/Page404';
-import Register from './pages/Register';
 import DashboardApp from './pages/DashboardApp';
 import Profile from './pages/Profile';
 import Employees from './pages/Employees';
@@ -20,6 +19,7 @@ import Departments from './pages/Departments';
 import Visitors from './pages/Visitors';
 import Guarantors from './pages/Guarantors';
 import Inboxes from './pages/Inbox'
+import Income from './pages/Income'
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -42,15 +42,12 @@ export default function Router() {
         { path: 'visitors', element: <Visitors /> },
         { path: 'guarantors', element: <Guarantors /> },
         { path: 'inboxes', element: <Inboxes /> },
+        { path: 'income', element: <Income /> },
       ],
     },
     {
       path: 'login',
       element: <Login />,
-    },
-    {
-      path: 'register',
-      element: <Register />,
     },
     {
       path: '/',

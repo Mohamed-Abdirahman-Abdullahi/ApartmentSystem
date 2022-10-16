@@ -118,7 +118,7 @@ export default function User() {
     }, []);
 
     return (
-        <Page title="User">
+        <Page title="Tenants">
             <Modal
                 show={show}
                 onHide={handleClose}

@@ -81,7 +81,7 @@ export default function Visitors() {
     }, [message]);
 
     return (
-        <Page title="User">
+        <Page title="Inbox">
             <Container>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                     <Typography variant="h4" gutterBottom>

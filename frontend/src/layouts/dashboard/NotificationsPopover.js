@@ -96,12 +96,33 @@ export default function NotificationsPopover() {
             disablePadding
             subheader={
               <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
-                Inboxes
+                Complaints
               </ListSubheader>
             }
           >
             {inboxes?.map((inbox) => {
-              if (!inbox.status) {
+              if (!inbox.status && inbox.type === "complaint") {
+                return (
+                  <Button onClick={() => { navigate('/dashboard/inboxes'); setOpen(false) }}
+                    style={{ width: '100%' }}>
+                    <NotificationItem key={inbox._id} notification={inbox} />
+                  </Button>
+                )
+              };
+              return null;
+            }
+            )}
+          </List>
+          <List
+            disablePadding
+            subheader={
+              <ListSubheader disableSticky sx={{ py: 1, px: 2.5, typography: 'overline' }}>
+                Maintenances
+              </ListSubheader>
+            }
+          >
+            {inboxes?.map((inbox) => {
+              if (!inbox.status && inbox.type === "maintenance") {
                 return (
                   <Button onClick={() => { navigate('/dashboard/inboxes'); setOpen(false) }}
                     style={{ width: '100%' }}>
@@ -146,7 +167,7 @@ function NotificationItem({ notification }) {
         ...(!notification.status && {
           bgcolor: 'action.selected',
         }),
-        height:70
+        height: 70
       }}
     >
       <ListItemAvatar>

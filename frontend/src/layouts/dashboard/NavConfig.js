@@ -63,14 +63,14 @@ const navConfig = [
     ]
   },
   {
+    title: 'income',
+    path: '/dashboard/income',
+    icon: getIcon('dashicons:money-alt'),
+  },
+  {
     title: 'inboxes',
     path: '/dashboard/inboxes',
     icon: getIcon('carbon:email'),
-  },
-  {
-    title: 'reports',
-    path: '#',
-    icon: getIcon('bxs:report'),
   },
   {
     title: 'login',

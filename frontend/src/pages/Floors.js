@@ -132,7 +132,7 @@ export default function User() {
     }, []);
 
     return (
-        <Page title="User">
+        <Page title="Floors">
             <Modal
                 show={show}
                 onHide={handleClose}

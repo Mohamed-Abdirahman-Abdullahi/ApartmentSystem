@@ -137,7 +137,7 @@ export default function User() {
     }, [showUpdate]);
 
     return (
-        <Page title="User">
+        <Page title="Apartments">
             <Modal
                 show={show}
                 onHide={handleClose}

@@ -119,7 +119,7 @@ export default function User() {
   }, [message]);
 
   return (
-    <Page title="User">
+    <Page title="Users">
       <Modal
         show={show}
         onHide={handleClose}

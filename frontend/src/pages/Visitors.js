@@ -138,7 +138,7 @@ export default function Visitors() {
     }, [message]);
 
     return (
-        <Page title="User">
+        <Page title="Visitors">
             <Modal
                 show={show}
                 onHide={handleClose}

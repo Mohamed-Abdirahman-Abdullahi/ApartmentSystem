@@ -137,7 +137,7 @@ export default function Units() {
     }, [message]);
 
     return (
-        <Page title="User">
+        <Page title="Units">
             <Modal
                 show={show}
                 onHide={handleClose}

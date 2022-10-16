@@ -133,7 +133,7 @@ export default function Departments() {
     }, []);
 
     return (
-        <Page title="User">
+        <Page title="Departments">
             <Modal
                 show={show}
                 onHide={handleClose}

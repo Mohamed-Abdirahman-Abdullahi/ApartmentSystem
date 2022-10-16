@@ -120,7 +120,7 @@ export default function User() {
     }, []);
 
     return (
-        <Page title="User">
+        <Page title="Employees">
             {/* Add new Employee modal  */}
             <Modal
                 show={show}

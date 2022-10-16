@@ -135,6 +135,7 @@ export default function DashboardApp() {
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
+
   return (
     <Page title="Dashboard">
       <Container maxWidth="xl">
@@ -216,6 +217,7 @@ export default function DashboardApp() {
               ]}
             />
           </Grid>
+
           <Grid item xs={12} md={6} lg={8}>
             <Container>
               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -308,6 +310,7 @@ export default function DashboardApp() {
               </Card>
             </Container>
           </Grid>
+          
           <Grid item xs={12} md={6} lg={4}>
             <Container>
               <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>

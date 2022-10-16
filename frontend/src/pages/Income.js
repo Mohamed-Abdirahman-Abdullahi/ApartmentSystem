@@ -170,7 +170,7 @@ export default function Visitors() {
                                             <th scope='col'>amount</th>
                                             <th scope='col'>staff</th>
                                             <th scope='col'>status</th>
-                                            <th scope='col'>message</th>
+                                            <th scope='col'>description</th>
                                             <th scope='col' style={{ width: '150px' }}>added date</th>
                                             <th scope='col'>actions</th>
                                         </tr>

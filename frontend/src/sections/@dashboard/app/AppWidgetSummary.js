@@ -34,7 +34,8 @@ export default function AppWidgetSummary({ title, total, icon, color = 'primary'
   return (
     <Card
       sx={{
-        py: 5,
+        height: 150,
+        py: 2,
         boxShadow: 0,
         textAlign: 'center',
         color: (theme) => theme.palette[color].darker,
@@ -45,6 +46,7 @@ export default function AppWidgetSummary({ title, total, icon, color = 'primary'
     >
       <IconWrapperStyle
         sx={{
+          width:30, height:30,
           color: (theme) => theme.palette[color].dark,
           backgroundImage: (theme) =>
             `linear-gradient(135deg, ${alpha(theme.palette[color].dark, 0)} 0%, ${alpha(

@@ -37,23 +37,23 @@ export default function Visitors() {
         return moment(date).format('DD/MM/YYYY');
     };
 
-    function getTotalIncome(data){
+    function getTotalIncome(data) {
         let total = 0;
-        data.forEach(element => {   
+        data.forEach(element => {
             total += element.amount
         });
         setTotalIncome(total);
     };
-    function getTotalPaid(data){
+    function getTotalPaid(data) {
         let total = 0;
-        data.forEach(element => {   
+        data.forEach(element => {
             total += element.amount
         });
         setTotalPaid(total);
     };
-    function getTotalUnpaid(data){
+    function getTotalUnpaid(data) {
         let total = 0;
-        data.forEach(element => {   
+        data.forEach(element => {
             total += element.amount
         });
         setTotalUnpaid(total);

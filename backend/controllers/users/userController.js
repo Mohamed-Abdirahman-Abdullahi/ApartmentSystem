@@ -1,6 +1,8 @@
 const Users = require("../../models/users/User")
 const jwt = require("jsonwebtoken");
 const mongoose = require('mongoose');
+const nodemailer = require('nodemailer');
+const bcrypt = require('bcrypt');
 
 // Creating jwt
 const createToken = (_id) => {
@@ -17,7 +19,7 @@ const getUsers = async (req, res) => {
 const getUser = async (req, res) => {
   const id = req.params.id;
   const removedCol = id.replace(':', "")
-  const user = await Users.find({_id: removedCol});
+  const user = await Users.find({ _id: removedCol });
   // isUser(user)
   res.status(200).json(user)
 }
@@ -62,6 +64,23 @@ const updateUser = async (req, res) => {
   res.status(200).json(user);
 };
 
+const updatePassword = async (req, res) => {
+  console.log("Backend reached");
+  const password = req.body.password;
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(password, salt);
+  const { email } = req.params;
+  const removedCol = email.replace(':', "")
+  const user = await Users.findOneAndUpdate(
+    { email: removedCol },
+    {
+      password: hash,
+    },
+    { new: true }
+  );
+  res.send('user password has been updated successfully.')
+};
+
 // login user
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -80,7 +99,7 @@ const loginUser = async (req, res) => {
 
 // signup user
 const signupUser = async (req, res) => {
-  const { fullname, gender, tel, email, address, username, password, userGroupID} = req.body;
+  const { fullname, gender, tel, email, address, username, password, userGroupID } = req.body;
 
   try {
     const user = await Users.create(
@@ -94,8 +113,8 @@ const signupUser = async (req, res) => {
         password: password,
         userGroupID: userGroupID
       }
-     );
-     
+    );
+
     // create a token
     const token = createToken(user._id);
 
@@ -106,7 +125,48 @@ const signupUser = async (req, res) => {
   }
 };
 
+const sendEmail = async (req, res) => {
+  const email = req.body.resetMail;
+  const user = await Users.findOne({ email: email });
+  if (user) {
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'alasabdirahman@gmail.com',
+        pass: 'teib miin hciz nypc'
+      }
+    });
 
+    var mailOptions = {
+      from: 'alas.abdirahman@yooltech.com',
+      to: email,
+      subject: 'Reset password link',
+      html: `<br><img style="width:60%;display: block;margin-left: auto; margin-right: auto;width: 50%;" src="cid:unique@cid"/> <br>
+      Hello ${user.username},<br>Your reset password link has been sent to you,<br>
+please click the link below to reset your password. 
+<br>http://192.168.5.7:3000/resetPassword?email=${email} <br>
+<br> <br>Regards,<br>YoolTech - Made with Love in Hamer.`,
+      attachments: [{
+        filename: 'yooltech.png',
+        path: __dirname + '/yooltech.png',
+        cid: 'unique@cid' //same cid value as in the html img src
+      }]
+      
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        res.send(`A reset password link has been sent to ${email}.`);
+      }
+    });
+  }
+  else {
+    res.send("Email address not exist.")
+  }
+
+};
 
 module.exports = {
   loginUser,
@@ -114,5 +174,7 @@ module.exports = {
   getUser,
   getUsers,
   deleteUser,
-  updateUser
+  updateUser,
+  sendEmail,
+  updatePassword
 }

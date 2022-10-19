@@ -2,7 +2,6 @@ const express = require("express");
 require("express-async-errors");
 const cors = require("cors");
 const error = require("./middleware/error");
-
 const users = require("./routes/users/users");
 const employees = require("./routes/employees/employees");
 const tenants = require("./routes/tenants/tenants");

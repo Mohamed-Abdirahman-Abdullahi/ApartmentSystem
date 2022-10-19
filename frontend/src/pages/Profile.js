@@ -29,15 +29,15 @@ export default function PersonalProfile() {
     if (data.password === '') {
       await axios.patch(`http://localhost:9000/api/users/:${id}`,
         {
-        fullname: data.fullname,
-        gender: data.gender,
-        tel: data.tel,
-        email: data.email,
-        address: data.address,
-        username: data.username,
-        password: data.password,
-        status: data.status,
-        userGroupID: data.userGroupID
+          fullname: data.fullname,
+          gender: data.gender,
+          tel: data.tel,
+          email: data.email,
+          address: data.address,
+          username: data.username,
+          password: data.oldPassword,
+          status: data.status,
+          userGroupID: data.userGroupID
         })
         .then((res) => navigate('/dashboard/user'))
         .catch((err) => setMessage('user not updated...'));
@@ -50,6 +50,7 @@ export default function PersonalProfile() {
           email: data.email,
           address: data.address,
           username: data.username,
+          password: data.password,
           status: data.status,
           userGroupID: data.userGroupID
         })
@@ -89,7 +90,7 @@ export default function PersonalProfile() {
 
                           <MDBTypography tag="h6">Information</MDBTypography>
                           <hr className="mt-0 mb-4" />
-                          
+
                           <MDBRow className="pt-1">
                             <MDBCol size="6" className="mb-3" key={key}>
                               <MDBTypography tag="h6">Fullname</MDBTypography>
@@ -98,7 +99,7 @@ export default function PersonalProfile() {
                             <MDBCol size="6" className="mb-3">
                               <MDBTypography tag="h6">Gender</MDBTypography>
                               <select {...register('gender')} className='form-control mt-2' id="exampleFormControlSelect">
-                                <option value={user.gender} style={{color:'gray'}}>{user.gender}</option>
+                                <option value={user.gender} style={{ color: 'gray' }}>{user.gender}</option>
                                 <option value={(user.gender === "male") ? "female" : "male"}>{(user.gender === "male") ? "female" : "male"}</option>
                               </select>
                             </MDBCol>
@@ -122,7 +123,8 @@ export default function PersonalProfile() {
                             </MDBCol>
                             <MDBCol size="6" className="mb-3">
                               <MDBTypography tag="h6">Password</MDBTypography>
-                              <input type='password' {...register('password')} onChange={() => setDisabled(false)} className="text-muted form-control" defaultValue='' />
+                              <input type='text' {...register('oldPassword')} hidden className="text-muted form-control" defaultValue='' />
+                              <input type='text' {...register('password')} onChange={() => setDisabled(false)} className="text-muted form-control" defaultValue='' />
                             </MDBCol>
                           </MDBRow>
 
@@ -173,8 +175,8 @@ export default function PersonalProfile() {
                               <input type='text' {...register('createdAt')} onChange={() => setDisabled(false)} className="text-muted form-control" value={formatDate(user.createdAt)} />
                             </MDBCol>
                             <MDBCol size="6" className="mb-3">
-                              <MDBTypography tag="h6">End at</MDBTypography>
-                              <input type='text' {...register('updatedAt')} onChange={() => setDisabled(false)} className="text-muted form-control" value={(user.status)?"working":formatDate(user.updatedAt)} />
+                              <MDBTypography tag="h6">Ended at</MDBTypography>
+                              <input type='text' {...register('updatedAt')} onChange={() => setDisabled(false)} className="text-muted form-control" value={(user.status) ? "working" : formatDate(user.updatedAt)} />
                             </MDBCol>
                           </MDBRow>
 

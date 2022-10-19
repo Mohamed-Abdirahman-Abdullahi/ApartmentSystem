@@ -58,7 +58,7 @@ export default function AppWidgetSummary({ title, total, icon, color = 'primary'
         <Iconify icon={icon} width={24} height={24} />
       </IconWrapperStyle>
         {
-          (title !== "Number of Income") ? 
+          (title === "Total Income" || title === "Total Paid" || title === "Total Unpaid") ? 
           <Typography variant="h3">${fShortenNumber(total)}</Typography> :
           <Typography variant="h3">{fShortenNumber(total)}</Typography>
         }

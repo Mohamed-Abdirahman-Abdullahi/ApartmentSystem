@@ -1,9 +1,7 @@
 const Users = require("../../models/users/User");
 const jwt = require("jsonwebtoken");
-
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-
 const nodemailer = require("nodemailer");
 
 // Creating jwt
@@ -89,7 +87,6 @@ const updateUser = async (req, res) => {
 };
 
 const updatePassword = async (req, res) => {
-  console.log("Backend reached");
   const password = req.body.password;
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
@@ -158,82 +155,57 @@ const signupUser = async (req, res) => {
   }
 };
 
-const changePassword = async (req, res) => {
-  const { id } = req.params;
-  const removedCol = id.replace(":", "");
-  let user = await Users.findById(removedCol);
-  if (!user) return res.status(401).send("invalid user");
+const sendEmail = async (req, res) => {
+  const email = req.body.resetMail;
+  const user = await Users.findOne({ email: email });
+  if (user) {
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "alasabdirahman@gmail.com",
+        pass: "teib miin hciz nypc",
+      },
+    });
 
-  const validPassword = await bcrypt.compare(
-    req.body.currentPassword,
-    user.password
-  );
-  if (!validPassword) return res.status(401).send(" password incorrect");
-
-  const salt = await bcrypt.genSalt(10);
-  const hashed = await bcrypt.hash(req.body.newPassword, salt);
-
-  user = await Users.updateOne(
-    { _id: user._id },
-    {
-      password: hashed,
-    },
-    { new: true }
-  );
-
-  res.send(user);
-
-  const sendEmail = async (req, res) => {
-    const email = req.body.resetMail;
-    const user = await Users.findOne({ email: email });
-    if (user) {
-      var transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: "alasabdirahman@gmail.com",
-          pass: "teib miin hciz nypc",
-        },
-      });
-
-      var mailOptions = {
-        from: "alas.abdirahman@yooltech.com",
-        to: email,
-        subject: "Reset password link",
-        html: `<br><img style="width:60%;display: block;margin-left: auto; margin-right: auto;width: 50%;" src="cid:unique@cid"/> <br>
-      Hello ${user.username},<br>Your reset password link has been sent to you,<br>
+    var mailOptions = {
+      from: "alas.abdirahman@yooltech.com",
+      to: email,
+      subject: "Reset password link",
+      html: `<br><img style="width:60%;display: block;margin-left: auto; margin-right: auto;width: 50%;" src="cid:unique@cid"/> <br>
+    Hello ${user.username},<br>Your reset password link has been sent to you,<br>
 please click the link below to reset your password. 
 <br>http://192.168.5.7:3000/resetPassword?email=${email} <br>
 <br> <br>Regards,<br>YoolTech - Made with Love in Hamer.`,
-        attachments: [
-          {
-            filename: "yooltech.png",
-            path: __dirname + "/yooltech.png",
-            cid: "unique@cid", //same cid value as in the html img src
-          },
-        ],
-      };
+      attachments: [
+        {
+          filename: "yooltech.png",
+          path: __dirname + "/yooltech.png",
+          cid: "unique@cid", //same cid value as in the html img src
+        },
+      ],
+    };
 
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          res.send(`A reset password link has been sent to ${email}.`);
-        }
-      });
-    } else {
-      res.send("Email address not exist.");
-    }
-  };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        res.send(`A reset password link has been sent to ${email}.`);
+      }
+    });
+  } else {
+    res.send("Email address not exist.");
+  }
 
-  module.exports = {
-    loginUser,
-    signupUser,
-    getUser,
-    getUsers,
-    deleteUser,
-    updateUser,
-    changePassword,
-    sendEmail,
-    updatePassword,
-  };
+
+};
+
+module.exports = {
+  loginUser,
+  signupUser,
+  getUser,
+  getUsers,
+  deleteUser,
+  updateUser,
+  sendEmail,
+  updatePassword,
 };

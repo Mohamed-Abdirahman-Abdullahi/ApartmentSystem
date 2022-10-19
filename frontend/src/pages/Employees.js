@@ -7,6 +7,7 @@ import {
     Button,
     Container,
     Typography,
+    Grid
 } from '@mui/material';
 import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
 
@@ -22,7 +23,9 @@ import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import { UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 import '../assets/tblHover.css';
-import Profile from './Profile';
+import {
+    AppWidgetSummary,
+} from '../sections/@dashboard/app';
 // ---------------------------------------------------------------------
 
 // ----------------------------------------------------------------------
@@ -33,6 +36,10 @@ export default function User() {
     const [message, setMessage] = useState('');
     const [show, setShow] = useState(false);
 
+    const [totalEmployees, setTotalEmployees] = useState();
+    const [totalActive, setTotalActive] = useState(0);
+    const [totalInactive, setTotalInactive] = useState(0);
+
     const formatDate = (date) => {
         return moment(date).format('DD/MM/YYYY');
     };
@@ -42,6 +49,9 @@ export default function User() {
             .then(res => {
                 const emps = res.data;
                 setEmps(emps);
+                setTotalEmployees(emps.length);
+                setTotalActive(emps.filter((emp) => emp.status === true).length);
+                setTotalInactive(emps.filter((emp) => emp.status === false).length);
             })
             .catch((err) => setMessage("Error: can't read employees."))
     };
@@ -77,7 +87,6 @@ export default function User() {
             .then(res => {
                 const deletedEmp = res.data;
                 setMessage(`employee removed.`);
-                window.location.reload();
             })
             .catch(err => console.log(err));
     };
@@ -106,7 +115,6 @@ export default function User() {
             .then(res => {
                 setMessage('new employee added');
                 setShow(false);
-                window.location.reload();
             })
             .catch(err => {
                 setMessage('failed...');
@@ -117,7 +125,7 @@ export default function User() {
 
     useEffect(() => {
         bindEmployees();
-    }, []);
+    }, [message]);
 
     return (
         <Page title="Employees">
@@ -179,69 +187,82 @@ export default function User() {
                         New Employee
                     </Button>
                 </Stack>
-                <p style={{ textAlign: 'center' }}>{message}</p>
-                <Card>
-                    <UserListToolbar />
+                <Grid container spacing={3}>
+                    <p style={{ textAlign: 'center' }}>{message}</p>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummary title="Total Users" total={totalEmployees} color="info" icon={'icon-park-outline:user'} />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummary title="Total Active" total={totalActive} icon={'icon-park-outline:user'} />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <AppWidgetSummary title="Total Inactive" total={totalInactive} color="warning" sx={{ background: "#ffb7b7" }} icon={'icon-park-outline:user'} />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={12}>
+                        <Card>
+                            <UserListToolbar />
 
-                    <Scrollbar >
+                            <Scrollbar >
 
-                        <MDBTable >
-                            <MDBTableHead light >
-                                <tr>
-                                    <th scope='col'>fullname</th>
-                                    <th scope='col'>telephone</th>
-                                    <th scope='col'>address</th>
-                                    <th scope='col'>department</th>
-                                    <th scope='col'>status</th>
-                                    <th scope='col'>joinDate</th>
-                                    <th scope='col'>actions</th>
-                                </tr>
-                            </MDBTableHead>
-                            <MDBTableBody>
-                                {
-                                    emps?.map((emp, key) => {
-                                        if (emp.status) {
-                                            return (
-                                                <tr>
-                                                    <td name='username'>{emp.fullname}</td>
-                                                    <td>{emp.tel}</td>
-                                                    <td>{emp.address}</td>
-                                                    <td>{emp.department}</td>
-                                                    <td ><span style={{ background: 'green', color: 'white' }}>active</span></td>
-                                                    <td>{formatDate(emp.createdAt)}</td>
-                                                    <td>
-                                                        <div>
-                                                            <button onClick={() => { getSelectedEmp(emp._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
-                                                            <button onClick={() => { showAlert(emp._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            )
-                                        } if (!emp.status) {
-                                            return (
-                                                <tr style={{ background: "#ffb7b7" }}>
-                                                    <td name='username'>{emp.fullname}</td>
-                                                    <td>{emp.tel}</td>
-                                                    <td>{emp.address}</td>
-                                                    <td>{emp.department}</td>
-                                                    <td ><span style={{ background: 'red', color: 'white' }}>inactive</span></td>
-                                                    <td>{formatDate(emp.createdAt)}</td>
-                                                    <td>
-                                                        <div style={{ display: 'flex' }}>
-                                                            <button onClick={() => { getSelectedEmp(emp._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
-                                                            <button onClick={() => { showAlert(emp._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            )
+                                <MDBTable >
+                                    <MDBTableHead light >
+                                        <tr>
+                                            <th scope='col'>fullname</th>
+                                            <th scope='col'>telephone</th>
+                                            <th scope='col'>address</th>
+                                            <th scope='col'>department</th>
+                                            <th scope='col'>status</th>
+                                            <th scope='col'>joinDate</th>
+                                            <th scope='col'>actions</th>
+                                        </tr>
+                                    </MDBTableHead>
+                                    <MDBTableBody>
+                                        {
+                                            emps?.map((emp, key) => {
+                                                if (emp.status) {
+                                                    return (
+                                                        <tr>
+                                                            <td name='username'>{emp.fullname}</td>
+                                                            <td>{emp.tel}</td>
+                                                            <td>{emp.address}</td>
+                                                            <td>{emp.department}</td>
+                                                            <td ><span style={{ background: 'green', color: 'white' }}>active</span></td>
+                                                            <td>{formatDate(emp.createdAt)}</td>
+                                                            <td>
+                                                                <div>
+                                                                    <button onClick={() => { getSelectedEmp(emp._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
+                                                                    <button onClick={() => { showAlert(emp._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                } if (!emp.status) {
+                                                    return (
+                                                        <tr style={{ background: "#ffb7b7" }}>
+                                                            <td name='username'>{emp.fullname}</td>
+                                                            <td>{emp.tel}</td>
+                                                            <td>{emp.address}</td>
+                                                            <td>{emp.department}</td>
+                                                            <td ><span style={{ background: 'red', color: 'white' }}>inactive</span></td>
+                                                            <td>{formatDate(emp.createdAt)}</td>
+                                                            <td>
+                                                                <div style={{ display: 'flex' }}>
+                                                                    <button onClick={() => { getSelectedEmp(emp._id) }} className="btn" id='mybtn'><i className="fa fa-edit" style={{ color: 'blue' }} /></button>
+                                                                    <button onClick={() => { showAlert(emp._id) }} className="btn" id='mybtn2'><i className="fa fa-trash text-danger" /></button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                }
+                                                return null
+                                            })
                                         }
-                                        return null
-                                    })
-                                }
-                            </MDBTableBody>
-                        </MDBTable>
-                    </Scrollbar>
-                </Card>
+                                    </MDBTableBody>
+                                </MDBTable>
+                            </Scrollbar>
+                        </Card>
+                    </Grid>
+                </Grid>
             </Container>
         </Page>
     );

@@ -165,60 +165,56 @@ export default function Visitors() {
                 <MDBTable>
                   <MDBTableHead light>
                     <tr>
-                      <th scope="col">tenant</th>
-                      <th scope="col">amount</th>
-                      <th scope="col">staff</th>
-                      <th scope="col">status</th>
+                      <th scope="col">account</th>
+                      <th scope="col">number</th>
                       <th scope="col">description</th>
-                      <th scope="col" style={{ width: '150px' }}>
-                        added date
-                      </th>
-                      <th scope="col">actions</th>
+                      <th scope="col">type</th>
+                      <th scope="col">category</th>
+                      <th scope="col">receiptNo</th>
+                      <th scope="col">memo</th>
+                      <th scope="col">amount</th>
+                      <th scope="col">date</th>
                     </tr>
                   </MDBTableHead>
                   <MDBTableBody>
                     {Expenses?.map((Expense, key) => {
-                      if (Expense.status) {
-                        return (
-                          <tr>
-                            <td>{Expense.account}</td>
-                            <td style={{ background: 'lightgray' }}>${Expense.amount}</td>
-                            <td>{Expense.number}</td>
-                            <td>
-                              <span style={{ background: 'green', color: 'white' }}>done</span>
-                            </td>
-                            <td>{Expense.description}</td>
-                            <td>{Expense.type}</td>
-                            <td>{Expense.category}</td>
-                            <td>{Expense.receiptNo}</td>
-                            <td>{Expense.memo}</td>
-                            <td>{Expense.amount}</td>
-                            <td style={{ background: 'lightgray' }}>{formatDate(Expense.createdAt)}</td>
-                            <td>
-                              <div style={{ display: 'flex' }}>
-                                <button
-                                  onClick={() => {
-                                    updateExpense(Expense._id);
-                                  }}
-                                  className="btn"
-                                  id="mybtn"
-                                >
-                                  <i className="fa fa-check" style={{ color: 'blue' }} />
-                                </button>
-                                <button
-                                  onClick={() => {
-                                    showAlert(Expense._id);
-                                  }}
-                                  className="btn"
-                                  id="mybtn2"
-                                >
-                                  <i className="fa fa-trash text-danger" />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      }
+                      return (
+                        <tr>
+                          <td>{Expense.account}</td>
+                          {/* <td style={{ background: 'lightgray' }}>${Expense.amount}</td> */}
+                          <td>{Expense.number}</td>
+                          <td>{Expense.description}</td>
+                          <td>{Expense.type}</td>
+                          <td>{Expense.category}</td>
+                          <td>{Expense.receiptNo}</td>
+                          <td>{Expense.memo}</td>
+                          <td>{Expense.amount}</td>
+                          <td style={{ background: 'lightgray' }}>{formatDate(Expense.createdAt)}</td>
+                          <td>
+                            <div style={{ display: 'flex' }}>
+                              <button
+                                onClick={() => {
+                                  updateExpense(Expense._id);
+                                }}
+                                className="btn"
+                                id="mybtn"
+                              >
+                                <i className="fa fa-check" style={{ color: 'blue' }} />
+                              </button>
+                              <button
+                                onClick={() => {
+                                  showAlert(Expense._id);
+                                }}
+                                className="btn"
+                                id="mybtn2"
+                              >
+                                <i className="fa fa-trash text-danger" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+
                       //   if (!Expense.status) {
                       //     return (
                       //       <tr>

@@ -59,12 +59,17 @@ const navConfig = [
         title: 'units',
         path: '/dashboard/units',
         icon: getIcon('emojione:door'),
-      }
-    ]
+      },
+    ],
   },
   {
     title: 'income',
     path: '/dashboard/income',
+    icon: getIcon('dashicons:money-alt'),
+  },
+  {
+    title: 'expense',
+    path: '/dashboard/expense',
     icon: getIcon('dashicons:money-alt'),
   },
   {

@@ -43,7 +43,7 @@ const expenseSchema = new mongoose.Schema(
       unique: true,
     },
     amount: {
-      type: mongoose.Schema.Types.Decimal128,
+      type: String,
       required: true,
     },
   },
@@ -63,6 +63,8 @@ const validate = (expense) => {
     receiptNo: Joi.string().required(),
     amount: Joi.string().required(),
   });
+
+  return schema.validate(expense);
 };
 
 module.exports = {

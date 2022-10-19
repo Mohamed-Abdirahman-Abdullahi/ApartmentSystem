@@ -1,4 +1,5 @@
 const express = require("express");
+require("express-async-errors");
 const cors = require("cors");
 const error = require("./middleware/error");
 
@@ -15,6 +16,9 @@ const inboxes = require("./routes/inboxes/inboxes");
 const income = require("./routes/income/income");
 const expenses = require("./routes/expenses/expenses");
 const app = express();
+
+///database connection
+require("./connection/connection")();
 
 app.use(express.json());
 app.use(cors());

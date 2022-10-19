@@ -1,7 +1,8 @@
 const connection = require("../../connection/connection");
 const Joi = require("joi");
+const mongoose = require("mongoose");
 
-const apartmentSchema = new connection.Schema(
+const apartmentSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -18,7 +19,7 @@ const apartmentSchema = new connection.Schema(
       required: true,
     },
     tel: {
-      type: Number
+      type: Number,
     },
     status: {
       type: Boolean,
@@ -28,7 +29,7 @@ const apartmentSchema = new connection.Schema(
   { timestamps: true }
 );
 
-const Apartments = connection.model("Apartments", apartmentSchema);
+const Apartments = mongoose.model("Apartments", apartmentSchema);
 
 const validate = (emp) => {
   const schema = Joi.object({

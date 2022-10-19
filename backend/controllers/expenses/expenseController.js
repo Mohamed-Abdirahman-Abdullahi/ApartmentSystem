@@ -1,7 +1,10 @@
 const { Expense } = require("../../models/expenses/expense");
 
 const createExpense = async (req, res) => {
-  const expense = await Expense.create({
+  let expense = await Expense.findOne({ receiptNo: req.body.receiptNo });
+  if (expense) return res.status(400).send("receipt already proccessed");
+
+  expense = await Expense.create({
     account: req.body.account,
     number: req.body.number,
     description: req.body.description,
@@ -16,9 +19,11 @@ const createExpense = async (req, res) => {
 };
 
 const updateExpense = async (req, res) => {
-  const expense = await Expense.findByIdAndUpdate(
-    req,
-    params.id,
+  let expense = await Expense.findOne({ receiptNo: req.body.receiptNo });
+  if (expense) return res.status(400).send("receipt already proccessed");
+
+  expense = await Expense.findByIdAndUpdate(
+    req.params.id,
     {
       account: req.body.account,
       number: req.body.number,
@@ -46,7 +51,6 @@ const deleteExpense = async (req, res) => {
 
 const getExpenses = async (req, res) => {
   const expenses = await Expense.find();
-  if (!expenses) res.status(400).send("No data in database");
 
   res.send(expenses);
 };

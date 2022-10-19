@@ -1,45 +1,37 @@
-const connection = require('../../connection/connection');
+const connection = require("../../connection/connection");
+const mongoose = require("mongoose");
 
-const GrantSchema = connection.Schema({
+const GrantSchema = new mongoose.Schema(
+  {
     fullname: {
-        type: String,
-        required: true,
-
+      type: String,
+      required: true,
     },
-    gender:
-    {
-        type: String,
-        required: true,
-
+    gender: {
+      type: String,
+      required: true,
     },
 
-    tel:
-    {
-        type: Number,
-        required: true,
-
-    }
-    ,
-    address:
-    {
-        type: String,
-        required: true,
+    tel: {
+      type: Number,
+      required: true,
     },
-    title:
-    {
-        type: String,
-        required: true,
+    address: {
+      type: String,
+      required: true,
     },
-    description:
-    {
-        type: String
-    }
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-}, {
-    timestamps: true
-}
-
-)
-
-const guarantors = connection.model('Guarantors', GrantSchema);
+const guarantors = mongoose.model("Guarantors", GrantSchema);
 module.exports = guarantors;

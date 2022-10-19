@@ -1,61 +1,49 @@
-const connection = require('../../connection/connection')
-
-const tenantSchema = connection.Schema({
+const connection = require("../../connection/connection");
+const mongoose = require("mongoose");
+const tenantSchema = mongoose.Schema(
+  {
     fullname: {
-        type: String,
-        required: true,
-
+      type: String,
+      required: true,
     },
-    gender:
-    {
-        type: String,
-        required: true,
-
+    gender: {
+      type: String,
+      required: true,
     },
 
-    tel:
-    {
-        type: Number,
-        required: true,
-
-    }
-    ,
-    email:
-    {
-        type: String,
-        required: true,
-
-    }
-    ,
-    address:
-    {
-        type: String,
-        required: true,
+    tel: {
+      type: Number,
+      required: true,
     },
-    guarantor:
-    {
-        type: String,
-        required: true,
-
+    email: {
+      type: String,
+      required: true,
+    },
+    address: {
+      type: String,
+      required: true,
+    },
+    guarantor: {
+      type: String,
+      required: true,
     },
     createdBy: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
 
     status: {
-        type: Boolean,
-        default: false,
+      type: Boolean,
+      default: false,
     },
     image: {
-        type: String,
+      type: String,
     },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-}, {
-    timestamps: true
-}
-
-)
-
-const tenants = connection.model('tenants', tenantSchema);
+const tenants = mongoose.model("tenants", tenantSchema);
 module.exports = tenants;

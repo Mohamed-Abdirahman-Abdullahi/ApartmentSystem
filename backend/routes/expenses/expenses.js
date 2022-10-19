@@ -10,8 +10,8 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", getExpenses);
-router.post("/", createExpense);
+router.post("/", validator(validate), createExpense);
 router.put("/:id", validator(validate), updateExpense);
-router.delete("/:id", validator(validate), deleteExpense);
+router.delete("/:id", deleteExpense);
 
 module.exports = router;

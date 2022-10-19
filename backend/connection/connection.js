@@ -1,4 +1,11 @@
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/TestDB', { autoIndex: false })
+const mongoose = require("mongoose");
+const config = require("config");
 
-module.exports = mongoose;
+module.exports = async () => {
+  try {
+    await mongoose.connect(config.get("db"));
+    console.log("server connected on apartments database");
+  } catch (error) {
+    console.log("not connected to the database", error);
+  }
+};

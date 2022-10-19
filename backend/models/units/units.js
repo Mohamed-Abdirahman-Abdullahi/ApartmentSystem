@@ -1,7 +1,8 @@
 const connection = require("../../connection/connection");
+const mongoose = require("mongoose");
 const Joi = require("joi");
 
-const unitSchema = new connection.Schema(
+const unitSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -29,7 +30,7 @@ const unitSchema = new connection.Schema(
       default: 0,
     },
     floor: {
-      type: new connection.Schema({
+      type: new mongoose.Schema({
         name: {
           type: String,
           required: true,
@@ -45,7 +46,7 @@ const unitSchema = new connection.Schema(
   { timestamps: true }
 );
 
-const Units = connection.model("Units", unitSchema);
+const Units = mongoose.model("Units", unitSchema);
 
 const validate = (floor) => {
   const schema = Joi.object({
@@ -60,4 +61,4 @@ const validate = (floor) => {
   return schema.validate(floor);
 };
 
-module.exports = Units
+module.exports = Units;

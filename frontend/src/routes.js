@@ -18,8 +18,10 @@ import Units from './pages/Units';
 import Departments from './pages/Departments';
 import Visitors from './pages/Visitors';
 import Guarantors from './pages/Guarantors';
-import Inboxes from './pages/Inbox'
-import Income from './pages/Income'
+import Inboxes from './pages/Inbox';
+import Income from './pages/Income';
+import Reset from './pages/ResetRequest';
+import ReserPassword from './pages/ResetPassword';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -48,6 +50,14 @@ export default function Router() {
     {
       path: 'login',
       element: <Login />,
+    },
+    {
+      path: 'resetRequest',
+      element: <Reset />,
+    },
+    {
+      path: 'resetPassword',
+      element: <ReserPassword />,
     },
     {
       path: '/',

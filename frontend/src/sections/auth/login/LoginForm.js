@@ -44,6 +44,22 @@ export default function LoginForm() {
     formState: { isSubmitting },
   } = methods;
 
+  const resetPassword = async (e) => {
+    e.preventDefault();
+    console.log("Front called...");
+    const email = e.email;
+    await axios.post(`http://localhost:9000/api/users/resetPassword`,
+      {
+        resetMail: email
+      })
+      .then(res => {
+        setMessage(res.data);
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+  };
+
   const onSubmit = async (e) => {
     await axios.post('http://localhost:9000/api/users/login', {
       email: e.email,
@@ -58,59 +74,39 @@ export default function LoginForm() {
   };
 
   return (
-    <>
-      {
-        (!forget) ?
-          <div>
-            <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-              <Stack spacing={3}>
-                <RHFTextField name="email" label="Email address" />
+    <div>
+      <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing={3}>
+          <RHFTextField name="email" label="Email address" />
 
-                <RHFTextField
-                  name="password"
-                  label="Password"
-                  type={showPassword ? 'text' : 'password'}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                          <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Stack>
+          <RHFTextField
+            name="password"
+            label="Password"
+            type={showPassword ? 'text' : 'password'}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                    <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+        </Stack>
 
-              <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-                <RHFCheckbox name="remember" label="Remember me" />
-                <Link variant="subtitle2" underline="hover" onClick={() => setForget(true)}>
-                  Forgot password?
-                </Link>
-              </Stack>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
+          <RHFCheckbox name="remember" label="Remember me" />
+          <Link variant="subtitle2" underline="hover" onClick={() => navigate('/resetRequest') }>
+            Forgot password ?
+          </Link>
+        </Stack>
 
-              <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-                Login
-              </LoadingButton>
-              <p style={{ marginTop: '20px', textAlign: 'center' }}>{message}</p>
-            </FormProvider>
-          </div> :
-          <div>
-            <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-              <Stack spacing={3}>
-
-                <RHFTextField name="email" label="Email address" />
-
-                <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-                  Reset
-                </LoadingButton>
-              </Stack>
-            </FormProvider>
-          </div>
-      }
-
-
-
-    </>
+        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+          Login
+        </LoadingButton>
+        <p style={{ marginTop: '20px', textAlign: 'center' }}>{message}</p>
+      </FormProvider>
+    </div>
   );
 }

@@ -167,56 +167,15 @@ const sendEmail = async (req, res) => {
       },
     });
 
-<<<<<<< HEAD
-=======
-  const validPassword = await bcrypt.compare(
-    req.body.currentPassword,
-    user.password
-  );
-  if (!validPassword) return res.status(401).send(" password incorrect");
-
-  const salt = await bcrypt.genSalt(10);
-  const hashed = await bcrypt.hash(req.body.newPassword, salt);
-
-  user = await Users.updateOne(
-    { _id: user._id },
-    {
-      password: hashed,
-    },
-    { new: true }
-  );
-
-  res.send(user);
-};
-
-const sendEmail = async (req, res) => {
-  const email = req.body.resetMail;
-  const user = await Users.findOne({ email: email });
-  if (user) {
-    var transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "alasabdirahman@gmail.com",
-        pass: "teib miin hciz nypc",
-      },
-    });
-
->>>>>>> 508d27ee533bdd5024e8123e29d4a085dd430a8f
     var mailOptions = {
       from: "alas.abdirahman@yooltech.com",
       to: email,
       subject: "Reset password link",
       html: `<br><img style="width:60%;display: block;margin-left: auto; margin-right: auto;width: 50%;" src="cid:unique@cid"/> <br>
     Hello ${user.username},<br>Your reset password link has been sent to you,<br>
-<<<<<<< HEAD
 please click the link below to reset your password. 
 <br>http://192.168.5.7:3000/resetPassword?email=${email} <br>
 <br> <br>Regards,<br>YoolTech - Made with Love in Hamer.`,
-=======
-    please click the link below to reset your password. 
-    <br>http://192.168.5.7:3000/resetPassword?email=${email} <br>
-    <br> <br>Regards,<br>YoolTech - Made with Love in Hamer.`,
->>>>>>> 508d27ee533bdd5024e8123e29d4a085dd430a8f
       attachments: [
         {
           filename: "yooltech.png",
@@ -236,22 +195,8 @@ please click the link below to reset your password.
   } else {
     res.send("Email address not exist.");
   }
-<<<<<<< HEAD
 
 
-=======
-};
-module.exports = {
-  loginUser,
-  signupUser,
-  getUser,
-  getUsers,
-  deleteUser,
-  updateUser,
-  changePassword,
-  sendEmail,
-  updatePassword,
->>>>>>> 508d27ee533bdd5024e8123e29d4a085dd430a8f
 };
 
 module.exports = {

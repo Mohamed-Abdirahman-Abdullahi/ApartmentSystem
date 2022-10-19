@@ -35,21 +35,23 @@ export default function Visitors() {
       total += element.amount;
     });
     setTotalExpense(total);
-  }
+  };
+
   function getTotalPaid(data) {
     let total = 0;
     data.forEach((element) => {
       total += element.amount;
     });
     setTotalPaid(total);
-  }
+  };
+
   function getTotalUnpaid(data) {
     let total = 0;
     data.forEach((element) => {
       total += element.amount;
     });
     setTotalUnpaid(total);
-  }
+  };
 
   async function bindExpense() {
     await axios
@@ -63,7 +65,7 @@ export default function Visitors() {
         getTotalUnpaid(Expenses.filter((Expense) => Expense.status === false));
       })
       .catch((err) => setMessage("Error: can't read Expenses."));
-  }
+  };
 
   async function updateExpense(id) {
     await axios
@@ -74,7 +76,7 @@ export default function Visitors() {
         setMessage('Expense updated.');
       })
       .catch((err) => setMessage('Update failed.'));
-  }
+  };
 
   function showAlert(action, id) {
     if (action === 'update') {
@@ -108,7 +110,7 @@ export default function Visitors() {
         ],
       });
     }
-  }
+  };
 
   async function deleteExpense(id) {
     await axios
@@ -118,7 +120,7 @@ export default function Visitors() {
         setMessage(`Expense removed.`);
       })
       .catch((err) => console.log(err));
-  }
+  };
 
   useEffect(() => {
     bindExpense();
@@ -174,6 +176,7 @@ export default function Visitors() {
                       <th scope="col">memo</th>
                       <th scope="col">amount</th>
                       <th scope="col">date</th>
+                      <th scope="col">actions</th>
                     </tr>
                   </MDBTableHead>
                   <MDBTableBody>
@@ -214,44 +217,6 @@ export default function Visitors() {
                           </td>
                         </tr>
                       );
-
-                      //   if (!Expense.status) {
-                      //     return (
-                      //       <tr>
-                      //         <td>{Expense.tenant}</td>
-                      //         <td style={{ background: 'lightgray' }}>${Expense.amount}</td>
-                      //         <td>{Expense.staff}</td>
-                      //         <td>
-                      //           <span style={{ background: 'red', color: 'white' }}>pending</span>
-                      //         </td>
-                      //         <td>{Expense.message}</td>
-                      //         <td style={{ background: 'lightgray' }}>{formatDate(Expense.createdAt)}</td>
-                      //         <td>
-                      //           <div style={{ display: 'flex' }}>
-                      //             <button
-                      //               onClick={() => {
-                      //                 showAlert('update', Expense._id);
-                      //               }}
-                      //               className="btn"
-                      //               id="mybtn"
-                      //             >
-                      //               <i className="fa fa-check" style={{ color: 'blue' }} />
-                      //             </button>
-                      //             <button
-                      //               onClick={() => {
-                      //                 showAlert('delete', Expense._id);
-                      //               }}
-                      //               className="btn"
-                      //               id="mybtn2"
-                      //             >
-                      //               <i className="fa fa-trash text-danger" />
-                      //             </button>
-                      //           </div>
-                      //         </td>
-                      //       </tr>
-                      //     );
-                      //   }
-                      //   return null;
                     })}
                   </MDBTableBody>
                 </MDBTable>

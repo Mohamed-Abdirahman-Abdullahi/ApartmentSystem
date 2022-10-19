@@ -20,6 +20,7 @@ import Visitors from './pages/Visitors';
 import Guarantors from './pages/Guarantors';
 import Inboxes from './pages/Inbox';
 import Income from './pages/Income';
+import Expense from './pages/Expenses';
 import Reset from './pages/ResetRequest';
 import ReserPassword from './pages/ResetPassword';
 // ----------------------------------------------------------------------
@@ -45,6 +46,7 @@ export default function Router() {
         { path: 'guarantors', element: <Guarantors /> },
         { path: 'inboxes', element: <Inboxes /> },
         { path: 'income', element: <Income /> },
+        { path: 'expense', element: <Expense /> },
       ],
     },
     {

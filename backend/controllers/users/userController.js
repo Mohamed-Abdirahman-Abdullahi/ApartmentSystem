@@ -182,58 +182,57 @@ const changePassword = async (req, res) => {
   );
 
   res.send(user);
+};
 
-  const sendEmail = async (req, res) => {
-    const email = req.body.resetMail;
-    const user = await Users.findOne({ email: email });
-    if (user) {
-      var transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: "alasabdirahman@gmail.com",
-          pass: "teib miin hciz nypc",
+const sendEmail = async (req, res) => {
+  const email = req.body.resetMail;
+  const user = await Users.findOne({ email: email });
+  if (user) {
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "alasabdirahman@gmail.com",
+        pass: "teib miin hciz nypc",
+      },
+    });
+
+    var mailOptions = {
+      from: "alas.abdirahman@yooltech.com",
+      to: email,
+      subject: "Reset password link",
+      html: `<br><img style="width:60%;display: block;margin-left: auto; margin-right: auto;width: 50%;" src="cid:unique@cid"/> <br>
+    Hello ${user.username},<br>Your reset password link has been sent to you,<br>
+    please click the link below to reset your password. 
+    <br>http://192.168.5.7:3000/resetPassword?email=${email} <br>
+    <br> <br>Regards,<br>YoolTech - Made with Love in Hamer.`,
+      attachments: [
+        {
+          filename: "yooltech.png",
+          path: __dirname + "/yooltech.png",
+          cid: "unique@cid", //same cid value as in the html img src
         },
-      });
+      ],
+    };
 
-      var mailOptions = {
-        from: "alas.abdirahman@yooltech.com",
-        to: email,
-        subject: "Reset password link",
-        html: `<br><img style="width:60%;display: block;margin-left: auto; margin-right: auto;width: 50%;" src="cid:unique@cid"/> <br>
-      Hello ${user.username},<br>Your reset password link has been sent to you,<br>
-please click the link below to reset your password. 
-<br>http://192.168.5.7:3000/resetPassword?email=${email} <br>
-<br> <br>Regards,<br>YoolTech - Made with Love in Hamer.`,
-        attachments: [
-          {
-            filename: "yooltech.png",
-            path: __dirname + "/yooltech.png",
-            cid: "unique@cid", //same cid value as in the html img src
-          },
-        ],
-      };
-
-      transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-          console.log(error);
-        } else {
-          res.send(`A reset password link has been sent to ${email}.`);
-        }
-      });
-    } else {
-      res.send("Email address not exist.");
-    }
-  };
-
-  module.exports = {
-    loginUser,
-    signupUser,
-    getUser,
-    getUsers,
-    deleteUser,
-    updateUser,
-    changePassword,
-    sendEmail,
-    updatePassword,
-  };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        res.send(`A reset password link has been sent to ${email}.`);
+      }
+    });
+  } else {
+    res.send("Email address not exist.");
+  }
+};
+module.exports = {
+  loginUser,
+  signupUser,
+  getUser,
+  getUsers,
+  deleteUser,
+  updateUser,
+  changePassword,
+  sendEmail,
+  updatePassword,
 };

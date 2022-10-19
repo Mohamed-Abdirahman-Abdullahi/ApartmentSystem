@@ -1,0 +1,3 @@
+{
+  "db": "mongodb+srv://nadaara:12345@cluster0.qllofdb.mongodb.net/apartments?retryWrites=true&w=majority"
+}

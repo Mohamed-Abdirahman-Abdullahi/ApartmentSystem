@@ -32,11 +32,6 @@ const navConfig = [
     icon: getIcon('eva:people-outline'),
   },
   {
-    title: 'visitors',
-    path: '/dashboard/visitors',
-    icon: getIcon('eva:people-outline'),
-  },
-  {
     title: 'manage apartments',
     icon: getIcon('fe:building'),
     children: [
@@ -63,19 +58,37 @@ const navConfig = [
     ],
   },
   {
-    title: 'income',
-    path: '/dashboard/income',
+    title: 'accounting',
     icon: getIcon('dashicons:money-alt'),
-  },
-  {
-    title: 'expense',
-    path: '/dashboard/expense',
-    icon: getIcon('dashicons:money-alt'),
+    children: [
+      {
+        title: 'invoice',
+        path: '/dashboard/invoice',
+      },
+      {
+        title: 'income',
+        path: '/dashboard/income',
+      },
+      {
+        title: 'expense',
+        path: '/dashboard/expense',
+      },
+    ]
   },
   {
     title: 'inboxes',
     path: '/dashboard/inboxes',
     icon: getIcon('carbon:email'),
+    children: [
+      {
+        title: 'complaint',
+        path: '/dashboard/inboxes',
+      },
+      {
+        title: 'announcement',
+        path: '/dashboard/announcement',
+      },
+    ]
   },
   {
     title: 'login',
